@@ -8,5 +8,11 @@ services:
     
     restart: always
 
+    volumes:
+      - ./services/mysql/data:/var/lib/mysql
+      - ./services/mysql/log:/var/log/mysql
+      - ./services/mysql/config:/etc/mysql
+
     env_file:
       - .prod.env
+    
