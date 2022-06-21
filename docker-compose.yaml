@@ -21,7 +21,7 @@ services:
     
   
   phpmyadmin:
-    image: phpmyadmin:4.9.7
+    image: phpmyadmin/phpmyadmin:4.9.7
 
     restart: always
     
