@@ -12,6 +12,7 @@ services:
       - ./services/mysql/data:/var/lib/mysql
       - ./services/mysql/log:/var/log/mysql
       - ./services/mysql/config:/etc/mysql
+      - ./files:/files
 
     env_file:
       - .prod.env
@@ -32,3 +33,6 @@ services:
       - PMA_ARBITRARY=0
       - PMA_HOST=mysql_db
       - PMA_PORT=3306
+    
+    volumes:
+      - ./services/phpmyadmin/config/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
