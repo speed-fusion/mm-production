@@ -61,7 +61,7 @@ services:
     build: ./services/pulsar
 
     volumes:
-      - ./services/pulsar/data1:/pulsar/data
+      - ./services/pulsar/pulsardata:/pulsar/data
     
     
     ports:
