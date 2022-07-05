@@ -68,7 +68,7 @@ services:
       - 6650:6650
       - 8080:8080
     
-    command: "bin/pulsar standalone"
+    command: "bin/pulsar standalone -nss"
   
 
   market_check:
