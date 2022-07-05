@@ -47,6 +47,7 @@ class MongoDatabase:
         source_id = data["source_id"]
         where = {"source_id":source_id}
         result = self.mc_listings_collection.find_one(where)
+        data = {"raw":data}
         data["updated_at"] = get_current_datetime()
         
         if result != None:
@@ -62,5 +63,6 @@ class MongoDatabase:
         data["created_at"] =  get_current_datetime()
         data["_id"] = generate_unique_uuid()
         data["status"] = "to_parse"
-        self.mc_listings_collection.insert_one({"raw":data,"source_id":source_id})
+        data["source_id"] = source_id
+        self.mc_listings_collection.insert_one(data)
         
