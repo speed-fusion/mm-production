@@ -1,7 +1,7 @@
 version: '3.1'
 
 services:
-  mysql_db:
+  mysql_dev:
     image: mysql:5.7.35
     
     command: --default-authentication-plugin=mysql_native_password
@@ -9,9 +9,9 @@ services:
     restart: always
 
     volumes:
-      - ./services/mysql/data:/var/lib/mysql
-      - ./services/mysql/log:/var/log/mysql
-      - ./services/mysql/config:/etc/mysql
+      - ./services/mysql_dev/data:/var/lib/mysql
+      - ./services/mysql_dev/log:/var/log/mysql
+      - ./services/mysql_dev/config:/etc/mysql
 
     env_file:
       - .prod.env
@@ -29,7 +29,7 @@ services:
     
     environment:
       - PMA_ARBITRARY=0
-      - PMA_HOST=mysql_db
+      - PMA_HOST=mysql_dev
       - PMA_PORT=3306
   
   redis:
@@ -64,5 +64,14 @@ services:
       - ./services/pulsar/data:/pulsar/data
     
     command: "bin/pulsar standalone"
+
+    restart: always
+  
+
+  market_check:
+    build: ./services/scrapers/market_check/csv_parser
+
+    volumes:
+      - /services/scrapers/market_check/csv_parser/new_files:/new_files
 
     restart: always

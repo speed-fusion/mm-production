@@ -28,15 +28,18 @@ class topicHandler:
         if status == False:
             return
         
-        for listing in listings:
+        self.marketcheck.upsert_dealers(dealers)
+        
+        self.marketcheck.upsert_listings(listings)
+        
+        
+        # for listing in listings:
+        #     print(listing)
+        #     self.producer.produce_message({
+        #         "data":listing
+        #     })
             
-            print(listing)
-            
-            self.producer.produce_message({
-                "data":listing
-            })
-            
-            break
+        #     break
 
 
 if __name__ == "__main__":
