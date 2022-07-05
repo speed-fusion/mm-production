@@ -19,7 +19,7 @@ class MongoDatabase:
         self.mc_dealers_collection = self.db["market-check-dealers"]
     
     def upsert_dealer_mc(self,data):
-        for key in data:
+        for key in data.copy():
             if data[key] == None:
                 del data[key]
         
@@ -40,7 +40,7 @@ class MongoDatabase:
         self.mc_dealers_collection.insert_one(data)
     
     def upsert_listings_mc(self,data):
-        for key in data:
+        for key in data.copy():
             if data[key] == None:
                 del data[key]
         
