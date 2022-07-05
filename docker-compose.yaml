@@ -80,5 +80,3 @@ services:
 
     env_file:
       - .prod.env
-
-    restart: always
