@@ -48,7 +48,7 @@ class MarketCheck:
         columns = ["dealer_id","seller_name","fca_status","fca_reference_no","seller_phone","street","city","county","postal_code","latitude","longitude","country"]
         dealer_df = df[columns]
         dealer_df.drop_duplicates(inplace=True)
-        
+        dealer_df.fillna(None,inplace=True)
         for index,row in dealer_df.iterrows():
             row_dict = row.to_dict()
             tmp = {}
@@ -79,7 +79,7 @@ class MarketCheck:
         
         listing_df = df
         listing_df.drop_duplicates(inplace=True)
-        
+        listing_df.fillna(None,inplace=True)
         for index,row in listing_df.iterrows():
             try:
                 row_dict = row.to_dict()

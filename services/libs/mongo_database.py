@@ -19,6 +19,9 @@ class MongoDatabase:
         self.mc_dealers_collection = self.db["market-check-dealers"]
     
     def upsert_dealer_mc(self,data):
+        for key in data:
+            if data[key] == None:
+                del data[key]
         
         dealer_id = data["dealer_id"]
         where = {"dealer_id":dealer_id}
@@ -37,6 +40,10 @@ class MongoDatabase:
         self.mc_dealers_collection.insert_one(data)
     
     def upsert_listings_mc(self,data):
+        for key in data:
+            if data[key] == None:
+                del data[key]
+        
         source_id = data["source_id"]
         where = {"source_id":source_id}
         result = self.mc_listings_collection.find_one(where)
@@ -55,5 +62,5 @@ class MongoDatabase:
         data["created_at"] =  get_current_datetime()
         data["_id"] = generate_unique_uuid()
         data["status"] = "to_parse"
-        self.mc_listings_collection.insert_one(data)
+        self.mc_listings_collection.insert_one({"raw":data})
         

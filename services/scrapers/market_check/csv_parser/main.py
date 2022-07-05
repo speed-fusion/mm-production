@@ -1,3 +1,4 @@
+from datetime import datetime
 import sys
 
 sys.path.append("/libs")
@@ -27,10 +28,12 @@ class topicHandler:
         if status == False:
             return
         
+        t1 = datetime.now()
         self.marketcheck.upsert_dealers(dealers)
-        
         self.marketcheck.upsert_listings(listings)
+        t2 = datetime.now()
         
+        print(f'total time : {(t2 - t1).seconds}')
         
         # for listing in listings:
         #     print(listing)
