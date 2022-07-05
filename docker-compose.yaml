@@ -61,16 +61,14 @@ services:
     build: ./services/pulsar
 
     volumes:
-      - ./services/pulsar/data:/pulsar/data
+      - ./services/pulsar/data1:/pulsar/data
     
     
     ports:
       - 6650:6650
-      - 8081:8000
+      - 8080:8080
     
     command: "bin/pulsar standalone"
-
-    restart: always
   
 
   market_check:
