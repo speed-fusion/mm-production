@@ -21,15 +21,11 @@ class topicHandler:
         self.marketcheck = MarketCheck()
         
     def main(self):
-        print("listening for new messages")
         
         status,listings,dealers = self.marketcheck.main()
         
         if status == False:
             return
-        
-        print(f'total listings : {len(listings)}')
-        print(f'total dealers : {len(dealers)}')
         
         self.marketcheck.upsert_dealers(dealers)
         
