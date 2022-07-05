@@ -62,5 +62,5 @@ class MongoDatabase:
         data["created_at"] =  get_current_datetime()
         data["_id"] = generate_unique_uuid()
         data["status"] = "to_parse"
-        self.mc_listings_collection.insert_one({"raw":data})
+        self.mc_listings_collection.insert_one({"raw":data,"source_id":source_id})
         
