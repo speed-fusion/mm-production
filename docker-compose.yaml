@@ -78,4 +78,7 @@ services:
       - ./services/scrapers/market_check/csv_parser/new_files:/new_files
       - ./services/libs:/libs
 
+    env_file:
+      - .prod.env
+
     restart: always
