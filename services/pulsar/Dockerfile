@@ -1,3 +1,3 @@
-FROM apachepulsar/pulsar:2.10.0
+FROM apachepulsar/pulsar-standalone
 
 COPY standalone.conf /pulsar/conf

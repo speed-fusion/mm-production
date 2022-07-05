@@ -67,7 +67,6 @@ services:
     ports:
       - 6650:6650
       - 8081:8000
-    # -p 6650:6650 -p 8081:8080
     
     command: "bin/pulsar standalone"
 
