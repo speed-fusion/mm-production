@@ -28,6 +28,9 @@ class topicHandler:
         if status == False:
             return
         
+        print(f'total listings : {len(listings)}')
+        print(f'total dealers : {len(dealers)}')
+        
         self.marketcheck.upsert_dealers(dealers)
         
         self.marketcheck.upsert_listings(listings)
