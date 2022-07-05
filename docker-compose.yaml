@@ -9,16 +9,15 @@ services:
     restart: always
 
     volumes:
-      - ./data:/var/lib/mysql
-      - ./log:/var/log/mysql
-      - ./config:/etc/mysql
+      - ./services/mysql/data:/var/lib/mysql
+      - ./services/mysql/log:/var/log/mysql
+      - ./services/mysql/config:/etc/mysql
 
     env_file:
       - .prod.env
     
     ports:
       - 3306:3306
-    
   
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:4.9.7
@@ -32,6 +31,38 @@ services:
       - PMA_ARBITRARY=0
       - PMA_HOST=mysql_db
       - PMA_PORT=3306
+  
+  redis:
+    image: "redis:alpine"
     
+    hostname: redis
+
     volumes:
-      - ./services/phpmyadmin/config/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
+      - ./services/redis/data:/data
+    
+    restart: always
+
+  mongodb:
+    
+    image: mongo:latest
+
+    env_file:
+      - .prod.env
+
+    ports:
+      - 27017:27017
+
+    volumes:
+      - ./services/mongodb/database:/data/db
+    
+    restart: always
+  
+  pulsar:
+    image: apachepulsar/pulsar
+
+    volumes:
+      - ./services/pulsar/data:/pulsar/data
+    
+    command: "bin/pulsar standalone"
+
+    restart: always
