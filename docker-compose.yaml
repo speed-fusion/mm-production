@@ -58,7 +58,7 @@ services:
     restart: always
   
   pulsar:
-    image: apachepulsar/pulsar
+    build: ./services/pulsar
 
     volumes:
       - ./services/pulsar/data:/pulsar/data
