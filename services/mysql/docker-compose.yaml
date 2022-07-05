@@ -18,8 +18,7 @@ services:
     
     ports:
       - 3306:3306
-    
-  
+      
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:4.9.7
 
