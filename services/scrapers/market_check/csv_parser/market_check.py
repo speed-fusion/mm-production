@@ -83,7 +83,8 @@ class MarketCheck:
             try:
                 row_dict = row.to_dict()
                 tmp = {}
-                tmp["source_id"] = row_dict["id"]
+                data = {}
+                data["source_id"] = row_dict["id"]
                 tmp["source_url"] = row_dict["vdp_url"]
                 tmp["price"] = row_dict["price"]
                 tmp["mileage"] = row_dict["miles"]
@@ -131,13 +132,15 @@ class MarketCheck:
                         })
                 
                 tmp["engine_cylinders"] = self.parse_engine_size(row_dict["engine_size"])
-                tmp["account_id"] = self.account_id
-                tmp["website_id"] = self.website_id
-                tmp["featured_id"] = self.featured_id
-                tmp["plan_id"] = self.plan_id
-                tmp["priority"] = self.priority
                 
-                yield tmp
+                data["account_id"] = self.account_id
+                data["website_id"] = self.website_id
+                data["featured_id"] = self.featured_id
+                data["plan_id"] = self.plan_id
+                data["priority"] = self.priority
+                data["raw"] = tmp
+                
+                yield data
                 
             except Exception as e:
                 print(f'error : {str(e)}')
