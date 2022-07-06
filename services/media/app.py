@@ -17,4 +17,4 @@ def download_file():
     return send_from_directory(media_base_path,file_path)
 
 if __name__ == "__main__":
-    app.run(port=6001,debug=True)
+    app.run(host="0.0.0.0",port=6001,debug=True)
