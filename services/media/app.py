@@ -5,7 +5,7 @@ from flask_cors import CORS
 from pathlib import Path
 from datetime import datetime, timedelta
 
-media_base_path = Path("/files")
+media_base_path = Path("/var/www/html/files")
 
 app = Flask(__name__)
 
