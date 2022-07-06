@@ -5,7 +5,7 @@ from flask_cors import CORS
 from pathlib import Path
 from datetime import datetime, timedelta
 
-media_base_path = Path("/var/www/html/files")
+media_base_path = Path("/files")
 
 app = Flask(__name__)
 
@@ -16,5 +16,5 @@ def download_file(path):
     print(path)
     return send_from_directory(media_base_path,path)
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0",port=6001,debug=True)
+# if __name__ == "__main__":
+#     app.run(host="0.0.0.0",port=6001,debug=True)
