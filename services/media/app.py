@@ -14,6 +14,7 @@ CORS(app)
 @app.route('/')
 def download_file():
     file_path = request.path
+    print(file_path)
     return send_from_directory(media_base_path,file_path)
 
 if __name__ == "__main__":
