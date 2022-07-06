@@ -166,8 +166,24 @@ class MarketCheck:
             self.mongodb.upsert_dealer_mc(dealer)
     
     def upsert_listings(self,listings):
+        
+        listing_ids = []
+        
+        active_dealer_ids = self.mongodb.get_active_dealer_ids()
+        
         for listing in listings:
-            self.mongodb.upsert_listings_mc(listing)
+            dealer_id = listing["raw"].get("dealer_id",None)
+            
+            id = self.mongodb.upsert_listings_mc(listing)
+            
+            if dealer_id in active_dealer_ids:
+                listing_ids.append(id)
+        
+        return listing_ids
+            
+            
+    
+    
     
     
     

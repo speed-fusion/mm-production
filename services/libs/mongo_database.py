@@ -57,10 +57,22 @@ class MongoDatabase:
             self.mc_listings_collection.update_one(where,{
                 "$set":what
             })
-            return
+            return result["_id"]
         
         data["created_at"] =  get_current_datetime()
         data["_id"] = generate_unique_uuid()
         data["status"] = "to_parse"
+        
         self.mc_listings_collection.insert_one(data)
+        
+        return data["_id"]
+    
+    def get_active_dealer_ids(self):
+        dealer_ids = {}
+        
+        for dealer in self.mc_dealers_collection.find({"status":"active"}):
+            dealer_ids[dealer["dealer_id"]] = 1
+        
+        return dealer_ids
+            
         

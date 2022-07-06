@@ -30,18 +30,16 @@ class topicHandler:
         
         t1 = datetime.now()
         self.marketcheck.upsert_dealers(dealers)
-        self.marketcheck.upsert_listings(listings)
+        listing_ids = self.marketcheck.upsert_listings(listings)
         t2 = datetime.now()
         
         print(f'total time : {(t2 - t1).seconds}')
         
-        # for listing in listings:
-        #     print(listing)
-        #     self.producer.produce_message({
-        #         "data":listing
-        #     })
-            
-        #     break
+        for id in listing_ids:
+            print(id)
+            self.producer.produce_message({
+                "id":id
+            })
 
 
 if __name__ == "__main__":
