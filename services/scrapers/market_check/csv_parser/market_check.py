@@ -206,7 +206,7 @@ class MarketCheck:
             
             what = listing
             
-            where = {"source_id":listing["raw"]["source_id"]}
+            where = {"source_id":listing["source_id"]}
             
             result = self.mongodb.listings_collection.find_one(where)
         
