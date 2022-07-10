@@ -4,7 +4,7 @@ sys.path.append("/libs")
 
 from mongo_database import MongoDatabase
 
-from helper import generate_unique_uuid,get_current_datetime
+from helper import generate_unique_uuid,get_current_datetime,clean_int
 
 from mm_constants import MarketCheckConstants
 
@@ -52,7 +52,7 @@ class MarketCheck:
             row_dict = row.to_dict()
             tmp = {}
             
-            tmp["dealer_id"] = str(row_dict["dealer_id"])
+            tmp["dealer_id"] = clean_int(row_dict["dealer_id"])
             tmp["dealer_name"] = row_dict["seller_name"]
             tmp["fca_status"] = row_dict["fca_status"]
             tmp["fca_reference_no"] = row_dict["fca_reference_no"]
@@ -99,7 +99,7 @@ class MarketCheck:
                 tmp["registration"] = row_dict["vehicle_registration_mark"]
                 tmp["registration_date"] = row_dict["vehicle_registration_date"]
                 tmp["exterior_color"] = row_dict["exterior_color"]
-                tmp["dealer_id"] = row_dict["dealer_id"]
+                tmp["dealer_id"] = clean_int(row_dict["dealer_id"])
                 tmp["dealer_name"] = row_dict["seller_name"]
                 tmp["dealer_number"] = row_dict["seller_phone"]
                 tmp["dealer_location"] = row_dict["postal_code"]
