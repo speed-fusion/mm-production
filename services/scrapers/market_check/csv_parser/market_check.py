@@ -183,6 +183,7 @@ class MarketCheck:
                 id = generate_unique_uuid()
                 
                 what["_id"] = id
+                what["website_id"] = MarketCheckConstants.WEBSITE_ID.value
                 what["status"] = "inactive"
                 
                 self.mongodb.dealers_collection.insert_one(what)
