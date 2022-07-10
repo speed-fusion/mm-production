@@ -10,7 +10,7 @@ class Producer:
     def produce_message(self,data):
         
         self.producer_client.send(
-            json.dumps(data).encode("utf-8")
+            json.dumps(data,default=str).encode("utf-8")
         )
 
 class Parser:
