@@ -55,7 +55,7 @@ class MarketCheckTransform:
         final["location"] = clean_string(location)
         
         dealer_id = raw.get("dealer_id",None)
-        final["dealer_id"] = clean_string(dealer_id)
+        final["dealer_id"] = clean_int(dealer_id)
         
         cab_type = raw.get("cab_type",None)
         final["cab_type"] = clean_string(cab_type)
