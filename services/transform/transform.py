@@ -119,7 +119,7 @@ class MarketCheckTransform:
         
         final["images"] = raw.get("images",[])
         
-        self.upsert_images(final["images"])
+        self.upsert_images(data["_id"],final["images"])
         
         final["title"] = generate_title(make,model,trim)
         
