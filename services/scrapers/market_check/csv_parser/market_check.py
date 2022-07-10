@@ -191,7 +191,7 @@ class MarketCheck:
                     if what[key] == None:
                         del what[key]
                         
-                self.mongodb.dealers_collection.update_one(where,what)
+                self.mongodb.dealers_collection.update_one(where,{"$set":what})
             
             
     
@@ -226,7 +226,7 @@ class MarketCheck:
                     if what[key] == None:
                         del what[key]
                         
-                self.mongodb.listings_collection.update_one(where,what)
+                self.mongodb.listings_collection.update_one(where,{"$set":what})
                 
                 id = result["_id"]
             

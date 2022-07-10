@@ -19,4 +19,6 @@ class MongoDatabase:
         
         self.dealers_collection = self.db["dealers"]
         
+        self.images_collection = self.db["images"]
+        
         self.valuation_data = self.db["valuation-data"]
