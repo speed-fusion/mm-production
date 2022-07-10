@@ -1,6 +1,6 @@
 import pulsar
 import json
-from mm_constants import Websites,Topics,URI
+from mm_constants import Topics,URI
 
 
 class Producer:
@@ -23,7 +23,6 @@ class Consumer:
     def __init__(self,consumer_client) -> None:
         self.consumer_client = consumer_client
         self.parser = Parser()
-        self.websites = Websites()
         
     def print(self,message):
         print(message)
