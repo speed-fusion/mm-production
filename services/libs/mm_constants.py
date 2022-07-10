@@ -3,7 +3,7 @@ import os
 
 URI='pulsar://pulsar'
 
-PIPELINE_NAME = os.environ.get("PIPELINE_NAME","DEFAULT")
+PIPELINE_NAME = os.environ.get("PIPELINE_NAME",".default")
 
 class AutoTraderConstants(Enum):
     WEBSITE_ID = 17
