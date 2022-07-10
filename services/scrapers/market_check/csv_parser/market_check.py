@@ -131,7 +131,7 @@ class MarketCheck:
                             "url":i
                         })
                 
-                tmp["engine_cylinders"] = self.parse_engine_size(row_dict["engine_size"])
+                tmp["engine_cylinders_cc"] = self.parse_engine_size(row_dict["engine_size"])
                 
                 data["account_id"] = self.account_id
                 data["website_id"] = self.website_id
@@ -147,7 +147,7 @@ class MarketCheck:
                 print(row_dict)
     
     def parse_csv(self,filepath):
-        df = pd.read_csv(filepath)
+        df = pd.read_csv(filepath,nrows=10)
         
         dealers = self.parse_dealers(df)
         
@@ -167,7 +167,7 @@ class MarketCheck:
     
     def upsert_listings(self,listings):
         
-        listing_ids = []
+        tmp = []
         
         active_dealer_ids = self.mongodb.get_active_dealer_ids()
         
@@ -177,16 +177,12 @@ class MarketCheck:
             id = self.mongodb.upsert_listings_mc(listing)
             
             if dealer_id in active_dealer_ids:
-                listing_ids.append(id)
+                tmp.append({
+                    "listing_id":id,
+                    "data":listing
+                })
         
-        return listing_ids
-            
-            
-    
-    
-    
-    
-    
+        return tmp
     
     def main(self):
         for file in self.new_files_dir.glob("*.csv.gz"):

@@ -3,26 +3,21 @@ import os
 
 URI='pulsar://pulsar'
 
-PIPELINE_NAME = os.environ.get("PIPELINE_NAME","")
+PIPELINE_NAME = os.environ.get("PIPELINE_NAME","DEFAULT")
 
-class Websites(Enum):
-    
-    AUTO_TRADER = {
-        "website_id":17,
-        "account_id":24898,
-        "plan_id":26,
-        "featured_id":26,
-        "priority":109
-    }
-    
-    MARKET_CHECK = {
-        "website_id":18,
-        "account_id":24899,
-        "plan_id":27,
-        "featured_id":27,
-        "priority":110
-    }
+class AutoTraderConstants(Enum):
+    WEBSITE_ID = 17
+    ACCOUNT_ID = 24898
+    PLAN_ID = 26
+    FEATURED_ID = 26
+    PRIORITY = 109
 
+class MarketCheckConstants(Enum):
+    WEBSITE_ID = 18
+    ACCOUNT_ID = 24899
+    PLAN_ID = 27
+    FEATURED_ID = 27
+    PRIORITY = 110
 
 class Topics(Enum):
     LOGS = "motormarket.scraper.logs"
@@ -35,19 +30,19 @@ class Topics(Enum):
     
     LISTING_TRANSFORM = f'motormarket{PIPELINE_NAME}.scraper.listing.transform'
     
-    LISTING_PREVALIDATION = f'motormarket{PIPELINE_NAME}.scraper.listing.prevalidation'
+    LISTING_PRE_VALIDATION = f'motormarket{PIPELINE_NAME}.scraper.listing.prevalidation'
     
-    LISTING_POSTVALIDATION = f'motormarket{PIPELINE_NAME}.scraper.listing.postvalidation'
+    LISTING_POST_VALIDATION = f'motormarket{PIPELINE_NAME}.scraper.listing.postvalidation'
     
     LISTING_POST_CALCULATION= f'motormarket{PIPELINE_NAME}.scraper.listing.postcalculation'
     
-    LISTING_PREDICT_MAKEMODEL= f'motormarket{PIPELINE_NAME}.scraper.listing.predict.makemodel'
+    LISTING_PREDICT_MAKE_MODEL= f'motormarket{PIPELINE_NAME}.scraper.listing.predict.makemodel'
     
     LISTING_PREDICT_NUMBERPLATE= f'motormarket{PIPELINE_NAME}.scraper.listing.predict.numberplate'
     
     LISTING_PREDICT_SEAT= f'motormarket{PIPELINE_NAME}.scraper.listing.predict.seat'
     
-    LISTING_PREDICT_IMAGE= f'motormarket{PIPELINE_NAME}.scraper.listing.predict.image'
+    LISTING_PREDICT_CAR_IMAGE= f'motormarket{PIPELINE_NAME}.scraper.listing.predict.car.image'
     
     FL_LISTING_PHOTOS_INSERT = f'motormarket{PIPELINE_NAME}.database.fllistingphotos.insert'
     

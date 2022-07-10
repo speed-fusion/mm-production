@@ -8,7 +8,7 @@ from pulsar_manager import PulsarManager
 from market_check import MarketCheck
 
 
-class topicHandler:
+class TopicHandler:
     def __init__(self):
         
         pulsar_manager = PulsarManager()
@@ -16,8 +16,6 @@ class topicHandler:
         self.topics = pulsar_manager.topics
         
         self.producer = pulsar_manager.create_producer(pulsar_manager.topics.LISTING_TRANSFORM)
-        
-        self.logs_producer = pulsar_manager.create_producer(pulsar_manager.topics.LOGS)
         
         self.marketcheck = MarketCheck()
         
@@ -30,18 +28,22 @@ class topicHandler:
         
         t1 = datetime.now()
         self.marketcheck.upsert_dealers(dealers)
-        listing_ids = self.marketcheck.upsert_listings(listings)
+        listings = self.marketcheck.upsert_listings(listings)
         t2 = datetime.now()
         
         print(f'total time : {(t2 - t1).seconds}')
         
-        for id in listing_ids:
-            print(id)
+        for item in listings:
+            listing_id = item["listing_id"]
+            
+            print(f'sending message : {listing_id}')
+            
             self.producer.produce_message({
-                "id":id
+                "listing_id":listing_id,
+                "website_id":18,
+                "data":item["data"]
             })
 
-
 if __name__ == "__main__":
-    th = topicHandler()
-    th.main()
+    topic_handler = TopicHandler()
+    topic_handler.main()

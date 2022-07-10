@@ -15,8 +15,13 @@ class MongoDatabase:
         self.db = client[self.database]
         
         # market check
-        self.mc_listings_collection = self.db["market-check-listings"]
+        self.listings_collection = self.db["listings"]
+        
+        self.dealers_collection = self.db["dealers"]
+        
         self.mc_dealers_collection = self.db["market-check-dealers"]
+        
+        self.valuation_data = self.db["valuation-data"]
     
     def upsert_dealer_mc(self,data):
         for key in data.copy():

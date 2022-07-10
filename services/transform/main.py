@@ -4,75 +4,72 @@ sys.path.append("/libs")
 
 from pulsar_manager import PulsarManager
 
-from transform import Transform
+from mongo_database import MongoDatabase
 
-import traceback
+from transform import MarketCheckTransform
 
-
-class topicHandler:
+class TopicHandler:
     def __init__(self):
         print("transform topic handler init")
         
         pulsar_manager = PulsarManager()
         
-        self.scrapers = pulsar_manager.scrapers
-        
-        self.topics = pulsar_manager.topics
-        
         self.consumer = pulsar_manager.create_consumer(pulsar_manager.topics.LISTING_TRANSFORM)
         
-        self.producer = pulsar_manager.create_producer(pulsar_manager.topics.LISTING_PREVALIDATION)
+        self.producer = pulsar_manager.create_producer(pulsar_manager.topics.LISTING_PRE_VALIDATION)
         
-        self.logs_producer = pulsar_manager.create_producer(pulsar_manager.topics.LOGS)
+        self.mc_transform = MarketCheckTransform()
         
-        self.transform = Transform()
-
-        self.post_calculation_producer = pulsar_manager.create_producer(pulsar_manager.topics.LISTING_POST_CALCULATION)
+        self.at_transform = None
         
+        self.mongodb = MongoDatabase()
+    
+    
     def main(self):
         print("listening for new messages")
         while True:
-        # for i in range(0,10):
-            try:
-                data =  self.consumer.consume_message()
+            
+            message =  self.consumer.consume_message()
+            
+            print(message)
+            
+            website_id = message["website_id"]
+            
+            listing_id = message["listing_id"]
+            
+            where = {"_id":listing_id}
+            
+            data = message.get("data",None)
+            
+            if data == None:
+                data = self.mongodb.listings_collection.find_one(where)
+            
+            if data == None:
+                # add code to report this incident
+                continue
+            
+            
+            if website_id == 17:
+                pass
+            
+            
+            if website_id == 18:
+                final = self.mc_transform.transform(data)
                 
-                id = data["id"]
-                
-                scraperType = data["data"].get("scraperType")
-                
-                if scraperType == "validator":
-                    transformedData = self.transform.transformValidatorData(data["data"])
-                    data["data"].update(transformedData)
-                    print(data)
-                    self.post_calculation_producer.produce_message(data)
-                    continue
-                
-                elif scraperType == "normal":
-                    transformedData = self.transform.transformData(data["data"])
-                
-                    data["data"].update(transformedData)
-                
-                print(data)
-                
-                self.producer.produce_message(data)
-                
-                # break
-                
-            except Exception as e:
-                print(f'error : {str(e)}')
-                print(traceback.format_exc())
-                
-                log = {}
-                
-                log["sourceUrl"] = data["data"]["sourceUrl"]
-                log["service"] = self.topics.LISTING_TRANSFORM.value
-                log["errorMessage"] = traceback.format_exc()
-                
-                self.logs_producer.produce_message({
-                    "eventType":"insertLog",
-                    "data":log
-                })
-                
+                self.mongodb.listings_collection.update_one(
+                    where,
+                    {
+                        "$set":final
+                    }
+                )
+            
+            self.producer.produce_message({
+                "website_id":website_id,
+                "listing_id":listing_id
+            })
+            
+        
 if __name__ == "__main__":
-    th = topicHandler()
-    th.main()
+    topic_handler = TopicHandler()
+    topic_handler.main()
+
