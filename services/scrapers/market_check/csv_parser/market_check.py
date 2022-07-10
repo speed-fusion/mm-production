@@ -52,7 +52,7 @@ class MarketCheck:
             row_dict = row.to_dict()
             tmp = {}
             
-            tmp["dealer_id"] = row_dict["dealer_id"]
+            tmp["dealer_id"] = str(row_dict["dealer_id"])
             tmp["dealer_name"] = row_dict["seller_name"]
             tmp["fca_status"] = row_dict["fca_status"]
             tmp["fca_reference_no"] = row_dict["fca_reference_no"]
