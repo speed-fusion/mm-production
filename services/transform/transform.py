@@ -96,7 +96,7 @@ class MarketCheckTransform:
         body_style = raw.get("body_style",None)
         final["body_style"] = clean_string(body_style)
         
-        source_price = raw.get("source_price",None)
+        source_price = raw.get("price",None)
         final["source_price"] = clean_int(source_price)
         
         price_indicator = raw.get("price_indicator",None)
