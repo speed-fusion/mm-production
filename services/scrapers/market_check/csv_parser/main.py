@@ -38,11 +38,14 @@ class TopicHandler:
             
             print(f'sending message : {listing_id}')
             
-            self.producer.produce_message({
+            
+            message = {
                 "listing_id":listing_id,
                 "website_id":18,
                 "data":item["data"]
-            })
+            }
+            
+            self.producer.produce_message(message)
 
 if __name__ == "__main__":
     topic_handler = TopicHandler()

@@ -4,7 +4,7 @@ sys.path.append("/libs")
 
 from mongo_database import MongoDatabase
 
-from mm_constants import Websites
+from mm_constants import MarketCheckConstants
 
 import json
 from pathlib import Path
@@ -30,17 +30,15 @@ class MarketCheck:
         if not self.processed_files_dir.exists():
             self.processed_files_dir.mkdir()
         
-        self.website_constants = Websites.MARKET_CHECK.value
-        
-        self.account_id = self.website_constants["account_id"]
+        self.account_id = MarketCheckConstants.ACCOUNT_ID.value
     
-        self.plan_id = self.website_constants["plan_id"]
+        self.plan_id = MarketCheckConstants.PLAN_ID.value
         
-        self.featured_id = self.website_constants["featured_id"]
+        self.featured_id = MarketCheckConstants.FEATURED_ID.value
         
-        self.website_id = self.website_constants["website_id"]
+        self.website_id = MarketCheckConstants.WEBSITE_ID.value
         
-        self.priority = self.website_constants["priority"]
+        self.priority = MarketCheckConstants.PRIORITY.value
         
         self.mongodb = MongoDatabase()
         
