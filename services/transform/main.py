@@ -29,7 +29,7 @@ class TopicHandler:
         print("listening for new messages")
         while True:
             
-            message =  self.consumer.consume_message()
+            message =  self.consumer.consume_message(timeout_millis=5000)
             
             print(message)
             
