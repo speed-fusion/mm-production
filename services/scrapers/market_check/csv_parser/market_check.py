@@ -4,6 +4,8 @@ sys.path.append("/libs")
 
 from mongo_database import MongoDatabase
 
+from helper import generate_unique_uuid,get_current_datetime
+
 from mm_constants import MarketCheckConstants
 
 import json
@@ -159,20 +161,74 @@ class MarketCheck:
         except Exception as e:
             print(f'error : {str(e)}')
     
+    def get_active_dealer_ids(self):
+        dealer_ids = {}
+        for dealer in self.mongodb.dealers_collection.find({"status":"active"}):
+            dealer_ids[dealer["dealer_id"]] = 1
+        return dealer_ids
+    
     def upsert_dealers(self,dealers):
         for dealer in dealers:
-            self.mongodb.upsert_dealer_mc(dealer)
+            
+            what = dealer
+            
+            where = {"dealer_id":dealer["dealer_id"],"website_id":MarketCheckConstants.WEBSITE_ID.value}
+            
+            result = self.mongodb.dealers_collection.find_one(where)
+            
+            what["updated_at"] = get_current_datetime()
+            
+            if result == None:
+                what["created_at"] = get_current_datetime()
+                id = generate_unique_uuid()
+                
+                what["_id"] = id
+                what["status"] = "inactive"
+                
+                self.mongodb.dealers_collection.insert_one(what)
+            else:
+                for key in what.copy():
+                    if what[key] == None:
+                        del what[key]
+                        
+                self.mongodb.dealers_collection.update_one(where,what)
+            
+            
     
     def upsert_listings(self,listings):
         
         tmp = []
         
-        active_dealer_ids = self.mongodb.get_active_dealer_ids()
+        active_dealer_ids = self.get_active_dealer_ids()
         
         for listing in listings:
             dealer_id = listing["raw"].get("dealer_id",None)
             
-            id = self.mongodb.upsert_listings_mc(listing)
+            what = listing
+            
+            where = {"source_id":listing["raw"]["source_id"]}
+            
+            result = self.mongodb.listings_collection.find_one(where)
+        
+            what["updated_at"] = get_current_datetime()
+            
+            id = None
+            
+            if result == None:
+                what["created_at"] = get_current_datetime()
+                id = generate_unique_uuid()
+                
+                what["_id"] = id
+                
+                self.mongodb.listings_collection.insert_one(what)
+            else:
+                for key in what.copy():
+                    if what[key] == None:
+                        del what[key]
+                        
+                self.mongodb.listings_collection.update_one(where,what)
+                
+                id = result["_id"]
             
             if dealer_id in active_dealer_ids:
                 tmp.append({
