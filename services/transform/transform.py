@@ -36,7 +36,7 @@ class MarketCheckTransform:
             "hybrid":8,
         }
     
-    def transform(self,data):
+    def transform(self,data,listing_id):
         
         raw = data["raw"]
         
@@ -119,7 +119,7 @@ class MarketCheckTransform:
         
         final["images"] = raw.get("images",[])
         
-        self.upsert_images(data["_id"],final["images"])
+        self.upsert_images(listing_id,final["images"])
         
         final["title"] = generate_title(make,model,trim)
         

@@ -233,7 +233,7 @@ class MarketCheck:
             if dealer_id in active_dealer_ids:
                 tmp.append({
                     "listing_id":id,
-                    "data":what
+                    "data":listing
                 })
         
         return tmp

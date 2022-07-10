@@ -54,7 +54,7 @@ class TopicHandler:
             
             
             if website_id == 18:
-                final = self.mc_transform.transform(data)
+                final = self.mc_transform.transform(data,listing_id)
                 
                 self.mongodb.listings_collection.update_one(
                     where,
