@@ -1,9 +1,17 @@
+import sys
 
-from helper import clean_string,clean_int,generate_title
+sys.path.append("/libs")
+
+from mongo_database import MongoDatabase
+
+from helper import clean_string,clean_int,generate_title,generate_sha1,get_current_datetime
 
 
 class MarketCheckTransform:
     def __init__(self) -> None:
+        
+        self.mongo_db = MongoDatabase()
+        
         self.transmission_codes = {
             "automatic":1,
             "manual":2,
@@ -111,6 +119,8 @@ class MarketCheckTransform:
         
         final["images"] = raw.get("images",[])
         
+        self.upsert_images(final["images"])
+        
         final["title"] = generate_title(make,model,trim)
         
         final["transmission_code"] = self.transmission_codes.get(transmission,4)
@@ -120,3 +130,28 @@ class MarketCheckTransform:
         final["source_mrp"] = source_price + admin_fee
         
         return final
+    
+    def upsert_images(self,listing_id,images):
+        for index,img in enumerate(images):
+            url = img["url"]
+            id = generate_sha1(url)
+            
+            where = {"_id":id}
+            
+            result = self.mongo_db.images_collection.find_one(where)
+            
+            now = get_current_datetime()
+            
+            if result == None:
+                what = {
+                    "url":url,
+                    "_id":id,
+                    "listing_id":listing_id,
+                    "created_at":now,
+                    "updated_at":now,
+                    "position":index
+                }
+                
+                self.mongo_db.images_collection.insert_one(what)
+
+                continue

@@ -71,7 +71,7 @@ services:
     command: "bin/pulsar standalone -nss"
   
 
-  market_check:
+  mc_csv_parser:
     build: ./services/scrapers/market_check/csv_parser
 
     volumes:
@@ -90,3 +90,12 @@ services:
       - "6001:5000"
 
     restart: always
+  
+  transform:
+    build: ./services/transform
+
+    volumes:
+      - ./services/libs:/libs
+
+    env_file:
+      - .prod.env

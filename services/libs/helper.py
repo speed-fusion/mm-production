@@ -1,3 +1,4 @@
+import hashlib
 import uuid
 from datetime import datetime
 def generate_unique_uuid():
@@ -39,5 +40,10 @@ def generate_title(make,model,trim):
             title = title + " " + trim
     
     return title.strip()
+
+def generate_sha1(data):
+    h = hashlib.sha1()
+    h.update(str(data).encode("utf-8"))
+    return h.hexdigest()
     
     
