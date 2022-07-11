@@ -47,7 +47,7 @@ class ImageDownloader:
                 "image_id":image_id,
                 "data":{
                     "image_download_status":1,
-                    "path":file_path,
+                    "path":str(file_path),
                     },
                 "url":url,
                 "position":position
@@ -74,7 +74,7 @@ class ImageDownloader:
                     "image_id":image_id,
                     "data":{
                         "image_download_status":1,
-                        "path":file_path,
+                        "path":str(file_path),
                         },
                     "url":url,
                     "position":position
