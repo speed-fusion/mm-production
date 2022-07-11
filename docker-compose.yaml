@@ -119,7 +119,7 @@ services:
       - .prod.env
   
   car_image_prediction:
-    build: ./services/ml/prediction/car_image_prediction
+    build: ./services/ml/prediction/car_image
 
     volumes:
       - ./services/libs:/libs
