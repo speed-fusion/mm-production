@@ -81,11 +81,12 @@ class RegistrationPredictor:
                     print(f'error : {str(e)}')
                 
                 registration = regno
+                
                 break
             else:
                 registration = regno
                 
         return {
             "predicted_registration":registration,
-            "registration_status":status
+            "is_prediction_correct":status
         }

@@ -137,3 +137,14 @@ services:
 
     env_file:
       - .prod.env
+  
+  registration_prediction:
+    build: ./services/ml/prediction/registration
+
+    volumes:
+      - ./services/libs:/libs
+      - ./media:/media
+      - ./services/ml/prediction/registration/model:/usr/src/app/model
+
+    env_file:
+      - .prod.env

@@ -1,5 +1,7 @@
 import sys
 
+import pymongo
+
 sys.path.append("/libs")
 
 from pulsar_manager import PulsarManager
@@ -29,8 +31,6 @@ class TopicHandler:
             
             message =  self.consumer.consume_message()
             
-            print(message)
-            
             website_id = message["website_id"]
             
             listing_id = message["listing_id"]
@@ -51,20 +51,36 @@ class TopicHandler:
             
             if website_id == 18:
                 
-                images = data["downloaded_images"]
+                images = list(self.mongodb.images_collection.find({"listing_id":listing_id,"is_car_image":True}).sort("position",direction=pymongo.ASCENDING))
                 
                 registration = data["registration"]
                 
-                pred_data = self.predictor.predict(images,None)
+                reg_prediction_status = data.get("reg_prediction_status",None)
                 
-                pred_data["registration_prediction"] = True
-                
-                self.mongodb.listings_collection.update_one(
-                    where,
-                    {
-                        "$set":pred_data
-                    }
-                )
+                if "**" in registration and reg_prediction_status == None:
+                    pred_data = self.predictor.predict(images,None)
+                    
+                    pred_data["reg_prediction_status"] = 1
+                    
+                    self.mongodb.listings_collection.update_one(
+                        where,
+                        {
+                            "$set":pred_data
+                        }
+                    )
+                    
+                else:
+                    tmp = {}
+                    tmp["reg_prediction_status"] = 0
+                    tmp["is_prediction_correct"] = True
+                    tmp["predicted_registration"] = registration
+                    
+                    self.mongodb.listings_collection.update_one(
+                        where,
+                        {
+                            "$set":tmp
+                        }
+                    )
             
             self.producer.produce_message(message)
             
