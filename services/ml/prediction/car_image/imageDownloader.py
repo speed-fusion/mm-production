@@ -114,7 +114,7 @@ class ImageDownloader:
                 url = item["url"]
                 image_id = item["_id"]
                 position = item["position"]
-                threads.append(executor.submit(self.download_image,url,image_id,listing_id,position))
+                threads.append(executor.submit(self.download_image,url,image_id,listing_dir,position))
         
             for task in as_completed(threads):
                 data = task.result()
