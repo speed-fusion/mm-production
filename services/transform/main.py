@@ -29,9 +29,7 @@ class TopicHandler:
         print("listening for new messages")
         while True:
             
-            message =  self.consumer.consume_message(timeout_millis=5000)
-            
-            print(message)
+            message =  self.consumer.consume_message()
             
             website_id = message["website_id"]
             
@@ -55,8 +53,6 @@ class TopicHandler:
             
             if website_id == 18:
                 final = self.mc_transform.transform(data,listing_id)
-                print(where)
-                print(final)
                 self.mongodb.listings_collection.update_one(
                     where,
                     {
