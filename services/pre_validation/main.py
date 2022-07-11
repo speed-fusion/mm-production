@@ -46,24 +46,22 @@ class TopicHandler:
                 # add code to report this incident
                 continue
             
-            
             if website_id == 17:
                 pass
             
-            
             if website_id == 18:
-                status,error_message = self.mc_validation.validate(data)
+                
+                status,error = self.mc_validation.validate(data)
                 
                 if status == False:
-                    self.mongodb.listings_collection.update_one(
-                        where,
-                        {
-                            "$set":{
-                                "message":error_message["error_message"],
-                                "status":"pre_validation_failed"
-                            }
-                        }
-                    )
+                    
+                    event_data = {
+                        "listing_id":listing_id,
+                        "message":error,
+                        "website_id":website_id
+                    }
+                    
+                    self.mongodb.insert_event(event_data)
                     
                     continue
             

@@ -99,3 +99,12 @@ services:
 
     env_file:
       - .prod.env
+  
+  pre_validation:
+    build: ./services/pre_validation
+
+    volumes:
+      - ./services/libs:/libs
+
+    env_file:
+      - .prod.env
