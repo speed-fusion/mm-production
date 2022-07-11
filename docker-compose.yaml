@@ -64,6 +64,7 @@ services:
     volumes:
       - ./services/pulsar/pulsardata:/pulsar/data
     
+    restart: always
     
     ports:
       - 6650:6650
@@ -100,6 +101,8 @@ services:
 
     env_file:
       - .prod.env
+    
+    restart: always
   
   pre_validation:
     build: ./services/pre_validation
@@ -109,6 +112,8 @@ services:
 
     env_file:
       - .prod.env
+    
+    restart: always
   
   post_validation:
     build: ./services/post_validation
@@ -118,6 +123,8 @@ services:
 
     env_file:
       - .prod.env
+    
+    restart: always
   
   make_model_prediction:
     build: ./services/ml/prediction/make_model
@@ -127,6 +134,8 @@ services:
 
     env_file:
       - .prod.env
+    
+    restart: always
   
   car_image_prediction:
     build: ./services/ml/prediction/car_image
@@ -139,6 +148,8 @@ services:
     env_file:
       - .prod.env
   
+    restart: always
+
   registration_prediction:
     build: ./services/ml/prediction/registration
 
@@ -149,6 +160,8 @@ services:
 
     env_file:
       - .prod.env
+    
+    restart: always
   
   post_calculation:
     build: ./services/post_calculation
@@ -158,3 +171,5 @@ services:
 
     env_file:
       - .prod.env
+    
+    restart: always
