@@ -61,7 +61,7 @@ class TopicHandler:
                         "website_id":website_id
                     }
                     
-                    self.mongodb.insert_event(event_data)
+                    self.mongodb.insert_event(self.mongodb.listing_event_collection,event_data)
                     
                     continue
             
