@@ -3,7 +3,7 @@ from pathlib import Path
 import pickle
 
 
-class videoId:
+class VideoId:
     def __init__(self) -> None:
         self.videoData = None
         

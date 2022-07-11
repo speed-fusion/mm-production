@@ -2,7 +2,7 @@
 from carData import carTypeDict
 
 
-class marginCalculation:
+class MarginCalculation:
     def __init__(self) -> None:
         self.make4x4 = [
             "cadillac",
@@ -82,7 +82,7 @@ class marginCalculation:
     
 
 
-if __name__ == "__main__":
-    m = marginCalculation()
+# if __name__ == "__main__":
+#     m = marginCalculation()
     
-    print(m.calculateMargin("audi","a6 allroad",2970))
+#     print(m.calculateMargin("audi","a6 allroad",2970))

@@ -1,3 +1,9 @@
+import sys
+
+sys.path.append("/libs")
+
+from mysql_database import MysqlDatabase
+
 from admin_fee import MarketCheckAdminFee
 
 from pcp_apr import MarketCheckPcpAprCalculation
@@ -8,9 +14,16 @@ from dealer_forecourt import DealerForecourt
 
 import json
 
+from video_id import VideoId
+
+from category_id import CategoryId
+
 class MarketCheckCalculation:
     
     def __init__(self) -> None:
+        self.mysql_db = MysqlDatabase()
+        
+        self.category_id_calc = CategoryId(self.mysql_db)
         
         self.mc_admin_fee = MarketCheckAdminFee()
         
@@ -18,7 +31,9 @@ class MarketCheckCalculation:
         
         self.mc_ltv = LtvCalculationRules()
         
-        self.dealer_forecourt = DealerForecourt()
+        self.dealer_forecourt = DealerForecourt(self.mysql_db)
+        
+        self.video_id = VideoId()
         
     
     def update_admin_fee(self,data):
@@ -43,9 +58,7 @@ class MarketCheckCalculation:
     
     
     def calculate_margin(self,data):
-        
         fixed_margin = 1299
-        
         data["margin"] = fixed_margin
     
     def calculate_motor_market_price(self,data):
@@ -95,24 +108,21 @@ class MarketCheckCalculation:
             if registration_status == True:
                 forecourt_price,response = self.dealer_forecourt.get_dealerforecourt_price(registration,mileage,website_id)
                 if forecourt_price == None:
-                    ltv["ltvStatus"] = 0
+                    ltv["ltv_status"] = 0
                     ltv["dealer_forecourt_response"] = json.dumps(response)
-                    ltv["status"] = "approval"
                     ltv.update(self.ltvCalc.getNullValues())
                 else:
                     ltv = self.ltvCalc.calculate(mm_price,forecourt_price)
-                    ltv["dealerForecourtPrice"] = forecourt_price
-                    ltv["ltvStatus"] = 1
+                    ltv["forecourt_price"] = forecourt_price
+                    ltv["ltv_status"] = 1
             else:
-                ltv["ltvStatus"] = 0
+                ltv["ltv_status"] = 0
                 ltv.update(self.ltvCalc.getNullValues())
         else:
             ltv = self.ltvCalc.getDefaultValues()
-            ltv["ltvStatus"] = 2
+            ltv["ltv_status"] = 2
         
         data["ltv"] = ltv
-    
-    
     
     def calculate_category_id(self,data):
         make = data["make"]
@@ -121,5 +131,29 @@ class MarketCheckCalculation:
         category_id = self.categoryIdCalc.getCategoryId(make,model)
         
         data["category_id"] = category_id
+
+    def calculate_video_id(self,data):
+        
+        make = data.get("predicted_make")
+        
+        model = data.get("predicted_model")
+        
+        built = data.get("built",None)
+        
+        try:
+            videoId = self.video_id.get_video_id(make,model,built)
+        except Exception as e:
+            print(f'error - calculation.py : not able to get video id : {str(e)}')
+            videoId = None
+            
+        if videoId != None:
+            data["video_id"] = videoId
     
     
+    def car_cutter_extra_margin(self,data):
+            
+        if data["source_mrp"] > 10000:
+            if data["registration_status"] == 1:
+                extra_margin = 200
+                data["cc_extra_margin"] = extra_margin
+                data["margin"] = data["margin"] + extra_margin

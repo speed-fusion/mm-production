@@ -5,10 +5,11 @@ import os
 
 class MysqlDatabase:
   def __init__(self):
-    self.host = os.environ.get("MYSQL_HOST","db")
-    self.user = os.environ.get("MYSQL_USERNAME","root")
-    self.password= os.environ.get("MYSQL_PASSWORD","9076b974c31e4678f")
-    self.database = os.environ.get("MYSQL_DATABASE","motormar_flynax")
+    # self.host = os.environ.get("MYSQL_HOST","db")
+    self.host = "mysql_dev"
+    self.user = os.environ.get("MYSQL_USERNAME")
+    self.password= os.environ.get("MYSQL_PASSWORD")
+    self.database = os.environ.get("MYSQL_DATABASE")
     self.charset = "utf8"
     self.cursor = None
 

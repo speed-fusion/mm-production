@@ -148,3 +148,12 @@ services:
 
     env_file:
       - .prod.env
+  
+  post_calculation:
+    build: ./services/post_calculation
+
+    volumes:
+      - ./services/libs:/libs
+      
+    env_file:
+      - .prod.env
