@@ -56,7 +56,7 @@ class TopicHandler:
                     "car_image_prediction":0,
                 }
                 
-                pending_images = self.mongodb.images_collection.find(where).sort("position",pymongo.ASCENDING)
+                pending_images = list(self.mongodb.images_collection.find(where).sort("position",pymongo.ASCENDING))
                 
                 if len(pending_images) > 0:
                     pred_data = self.predictor.predict(pending_images,website_id,listing_id)
