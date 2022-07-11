@@ -47,7 +47,7 @@ class MarketCheckValidation:
         if registration == None:
             return False,"registration is not available"
         
-        if len(registration != 7):
+        if len(registration) != 7:
             return False,f'registration({registration}) length is not equal to 7'
         
         return True,None
