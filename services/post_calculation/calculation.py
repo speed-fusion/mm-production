@@ -128,7 +128,7 @@ class MarketCheckCalculation:
         make = data["make"]
         model = data["model"]
         
-        category_id = self.categoryIdCalc.getCategoryId(make,model)
+        category_id = self.category_id_calc.getCategoryId(make,model)
         
         data["category_id"] = category_id
 
