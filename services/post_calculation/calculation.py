@@ -110,16 +110,16 @@ class MarketCheckCalculation:
                 if forecourt_price == None:
                     ltv["ltv_status"] = 0
                     ltv["dealer_forecourt_response"] = json.dumps(response)
-                    ltv.update(self.ltvCalc.getNullValues())
+                    ltv.update(self.mc_ltv.getNullValues())
                 else:
-                    ltv = self.ltvCalc.calculate(mm_price,forecourt_price)
+                    ltv = self.mc_ltv.calculate(mm_price,forecourt_price)
                     ltv["forecourt_price"] = forecourt_price
                     ltv["ltv_status"] = 1
             else:
                 ltv["ltv_status"] = 0
-                ltv.update(self.ltvCalc.getNullValues())
+                ltv.update(self.mc_ltv.getNullValues())
         else:
-            ltv = self.ltvCalc.getDefaultValues()
+            ltv = self.mc_ltv.getDefaultValues()
             ltv["ltv_status"] = 2
         
         data["ltv"] = ltv
