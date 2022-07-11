@@ -34,9 +34,8 @@ class Predictor:
             img = open_image(image["data"]["path"])
             
             pred_class,pred_idx,outputs = self.model.predict(img)
-            print(outputs)
-            print(pred_idx)
-            image["data"]["pred_class"] = pred_class
+            
+            image["data"]["pred_class"] = str(pred_class)
             
             if not str(pred_class) in ["cars"]:
                 image["data"]["is_car_image"] = False
