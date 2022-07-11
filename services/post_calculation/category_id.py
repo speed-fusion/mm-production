@@ -2,13 +2,13 @@ import sys
 
 sys.path.append("/libs")
 
-from redisHandler import redisHandler
+from redis_handler import RedisHandler
 
 
 class CategoryId:
     def __init__(self, db) -> None:
         self.db = db
-        self.redis = redisHandler()
+        self.redis = RedisHandler()
 
         self.updateRedisCategoryId()
 
