@@ -12,6 +12,7 @@ services:
       - ./services/mysql_dev/data:/var/lib/mysql
       - ./services/mysql_dev/log:/var/log/mysql
       - ./services/mysql_dev/config:/etc/mysql
+      - ./files:/files
 
     env_file:
       - .prod.env
@@ -154,6 +155,6 @@ services:
 
     volumes:
       - ./services/libs:/libs
-      
+
     env_file:
       - .prod.env
