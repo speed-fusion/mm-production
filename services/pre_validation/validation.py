@@ -40,7 +40,7 @@ class MarketCheckValidation:
             log["error_message"] = message
             return False,log
         
-        return True,{}
+        return True,{"error_message":""}
     
     def registration_validation(self,registration):
         
