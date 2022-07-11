@@ -21,7 +21,7 @@ class MarketCheckValidation:
         status,message = self.engine_cylinders_cc_validation(engine_cc)
         
         if status == False:
-            log["errorMessage"] = message
+            log["error_message"] = message
             return False,log
         
         status,message = self.built_validation(built)
