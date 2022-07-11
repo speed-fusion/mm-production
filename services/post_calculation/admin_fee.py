@@ -18,6 +18,6 @@ class MarketCheckAdminFee:
         admin_fee_data = self.mongo_db.dealers_collection.find_one(where,{"admin_fee":1})
         
         if admin_fee_data != None:
-            admin_fee = admin_fee_data["admin_fee"]
+            admin_fee = admin_fee_data.get("admin_fee",0)
         
         return admin_fee
