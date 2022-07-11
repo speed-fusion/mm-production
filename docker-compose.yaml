@@ -108,3 +108,12 @@ services:
 
     env_file:
       - .prod.env
+  
+  make_model_prediction:
+    build: ./services/ml/prediction/make_model
+
+    volumes:
+      - ./services/libs:/libs
+
+    env_file:
+      - .prod.env
