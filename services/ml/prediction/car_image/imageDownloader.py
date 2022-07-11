@@ -99,7 +99,7 @@ class ImageDownloader:
         
         threads = []
         
-        website_dir = self.media.joinpath(website_id)
+        website_dir = self.media.joinpath(str(website_id))
         
         if not website_dir.exists():
             website_dir.mkdir()
