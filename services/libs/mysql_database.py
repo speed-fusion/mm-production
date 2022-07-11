@@ -6,7 +6,7 @@ import os
 class MysqlDatabase:
   def __init__(self):
     # self.host = os.environ.get("MYSQL_HOST","db")
-    self.host = "mysql_dev"
+    self.host = "mysql_dev:3306"
     self.user = os.environ.get("MYSQL_USERNAME")
     self.password= os.environ.get("MYSQL_PASSWORD")
     self.database = os.environ.get("MYSQL_DATABASE")
