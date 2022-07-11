@@ -184,7 +184,7 @@ class MarketCheck:
                 
                 what["_id"] = id
                 what["website_id"] = MarketCheckConstants.WEBSITE_ID.value
-                what["status"] = "inactive"
+                what["status"] = "active"
                 
                 self.mongodb.dealers_collection.insert_one(what)
             else:
