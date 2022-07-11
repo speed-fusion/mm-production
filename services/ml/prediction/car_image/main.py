@@ -53,6 +53,7 @@ class TopicHandler:
                 
                 where = {
                     "listing_id":listing_id,
+                    "car_image_prediction":None
                 }
                 
                 pending_images = list(self.mongodb.images_collection.find(where).sort("position",pymongo.ASCENDING))
