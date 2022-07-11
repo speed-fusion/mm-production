@@ -109,6 +109,15 @@ services:
     env_file:
       - .prod.env
   
+  post_validation:
+    build: ./services/post_validation
+
+    volumes:
+      - ./services/libs:/libs
+
+    env_file:
+      - .prod.env
+  
   make_model_prediction:
     build: ./services/ml/prediction/make_model
 
