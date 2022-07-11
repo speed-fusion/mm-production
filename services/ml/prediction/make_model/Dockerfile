@@ -4,9 +4,9 @@ WORKDIR /usr/src/app
 
 COPY ./requirements.txt ./
 
-RUN pip install -r requirements.txt
+RUN pip install sklearn pulsar-client==2.9.1 redis unidecode
 
 COPY . .
 
 
-CMD ["python","-u","topicHandler.py"]
+CMD ["python","-u","main.py"]

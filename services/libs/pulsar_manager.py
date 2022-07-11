@@ -8,7 +8,12 @@ class Producer:
         self.producer_client = producer_client
     
     def produce_message(self,data):
-        
+        listing_id = data.get("listing_id",None)
+            
+        if listing_id != None:
+            print(f'sending message to next service : {listing_id}')
+        else:
+            print(f'listing id not present in message')
         self.producer_client.send(
             json.dumps(data,default=str).encode("utf-8")
         )
@@ -31,7 +36,14 @@ class Consumer:
         try:
             message = self.consumer_client.receive(timeout_millis = timeout_millis)
             self.consumer_client.acknowledge(message)
-            self.print(f'message_id : {message.message_id()}')
+            json_data = self.parser.json_parser(message)
+            listing_id = json_data.get("listing_id",None)
+            
+            if listing_id != None:
+                print(f'received new message : {listing_id}')
+            else:
+                print(f'listing id not present in message')
+                
             return self.parser.json_parser(message)
         except:
             return None

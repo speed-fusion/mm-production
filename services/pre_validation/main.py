@@ -33,8 +33,6 @@ class TopicHandler:
             
             listing_id = message["listing_id"]
             
-            print(f'received new message : {listing_id}')
-            
             where = {"_id":listing_id}
             
             data = message.get("data",None)
@@ -64,8 +62,7 @@ class TopicHandler:
                     self.mongodb.insert_event(self.mongodb.listing_event_collection,event_data)
                     
                     continue
-            
-            print(f'sending message to next service : {listing_id}')
+                
             self.producer.produce_message(message)
             
         

@@ -18,8 +18,6 @@ class TopicHandler:
         
         self.producer = pulsar_manager.create_producer(pulsar_manager.topics.LISTING_PREDICT_SEAT)
         
-        self.mc_validation = MarketCheckValidation()
-        
         self.mongodb = MongoDatabase()
         
         self.predictor = Predictor()
@@ -29,8 +27,6 @@ class TopicHandler:
         while True:
             
             message =  self.consumer.consume_message()
-            
-            print(message)
             
             website_id = message["website_id"]
             
@@ -63,6 +59,7 @@ class TopicHandler:
                     
                     pred_data["make_model_prediction"] = True
                     
+                    print(pred_data)
                     
                     self.mongodb.listings_collection.update_one(
                         where,
