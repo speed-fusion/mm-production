@@ -29,11 +29,11 @@ class TopicHandler:
             
             message =  self.consumer.consume_message()
             
-            print(message)
-            
             website_id = message["website_id"]
             
             listing_id = message["listing_id"]
+            
+            print(f'received new message : {listing_id}')
             
             where = {"_id":listing_id}
             
@@ -57,14 +57,15 @@ class TopicHandler:
                     
                     event_data = {
                         "listing_id":listing_id,
-                        "message":error,
+                        "message":error["error_message"],
                         "website_id":website_id
                     }
-                    
+                    print(f'listing rejected : {error["error_message"]}')
                     self.mongodb.insert_event(self.mongodb.listing_event_collection,event_data)
                     
                     continue
             
+            print(f'sending message to next service : {listing_id}')
             self.producer.produce_message(message)
             
         
