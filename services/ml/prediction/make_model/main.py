@@ -16,7 +16,7 @@ class TopicHandler:
         
         self.consumer = pulsar_manager.create_consumer(pulsar_manager.topics.LISTING_PREDICT_MAKE_MODEL)
         
-        self.producer = pulsar_manager.create_producer(pulsar_manager.topics.LISTING_PREDICT_SEAT)
+        self.producer = pulsar_manager.create_producer(pulsar_manager.topics.LISTING_PREDICT_CAR_IMAGE)
         
         self.mongodb = MongoDatabase()
         

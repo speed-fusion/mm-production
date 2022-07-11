@@ -10,15 +10,15 @@ class ImageDownloader:
         
         self.cwd = Path.cwd()
         
-        self.media = self.cwd.joinpath("media")
+        self.media = self.cwd.joinpath("/media")
         
         if not self.media.exists():
             self.media.mkdir()
             
         self.max_retry = 10
         
-        self.datacenterProxy = os.environ.get("DATACENTER_PROXY")
-        print(self.datacenterProxy)
+        self.datacenterProxy = os.environ.get("DATACENTER_PROXY",None)
+        
         self.proxy = {
             "http":self.datacenterProxy,
             "https":self.datacenterProxy
@@ -38,24 +38,18 @@ class ImageDownloader:
         'accept-language': 'en-US,en;q=0.9,ca;q=0.8,cs;q=0.7,fr;q=0.6,hi;q=0.5'
         }
         
-    def download_image(self,url,websiteId,sourceId,position,websiteDir,listingDir):
+    def download_image(self,url,image_id,listing_dir,position):
         
-        imageId = hashlib.sha1(
-                url.encode("utf-8")
-            ).hexdigest()
+        file_path = listing_dir.joinpath(f'{image_id}.png')
         
-        
-        
-        filePath = listingDir.joinpath(f'{imageId}.png')
-        
-        predictionImagePath = listingDir.joinpath(f'prediction_{imageId}.png')
-        
-        if filePath.exists():
+        if file_path.exists():
             return {
-                "status":True,
+                "image_id":image_id,
+                "data":{
+                    "image_download_status":1,
+                    "path":file_path,
+                    },
                 "url":url,
-                "path":filePath,
-                "id":imageId,
                 "position":position
                 }
         
@@ -73,53 +67,57 @@ class ImageDownloader:
                     print(f'error downloading image : {str(e)}')
                     
             
-            filePath.write_bytes(response.content)
+            file_path.write_bytes(response.content)
             
             
             return {
-                "status":True,
-                "url":url,
-                "path":filePath,
-                "id":imageId,
-                "position":position
-                }
+                    "image_id":image_id,
+                    "data":{
+                        "image_download_status":1,
+                        "path":file_path,
+                        },
+                    "url":url,
+                    "position":position
+                    }
             
         except Exception as e:
             print(f'error : {str(e)}')
         
         return {
-                "status":False,
+                "image_id":image_id,
+                "data":{
+                    "image_download_status":2,
+                    "path":None
+                },
                 "url":url,
-                "path":None
+                "position":position,
             }
     
-    def download_multiple_images(self,urls,websiteId,sourceId):
+    def download_multiple_images(self,urls,website_id,listing_id):
         
         downloadedImages = []
         
         threads = []
         
-        websiteDir = self.media.joinpath(websiteId)
+        website_dir = self.media.joinpath(website_id)
         
-        if not websiteDir.exists():
-            websiteDir.mkdir()
+        if not website_dir.exists():
+            website_dir.mkdir()
         
-        listingDir = websiteDir.joinpath(sourceId)
+        listing_dir = website_dir.joinpath(listing_id)
         
-        if not listingDir.exists():
-            listingDir.mkdir()
+        if not listing_dir.exists():
+            listing_dir.mkdir()
         
         with ThreadPoolExecutor(max_workers=30) as executor:
-            for position,url in enumerate(urls):
-                threads.append(executor.submit(self.download_image,url,websiteId,sourceId,position,websiteDir,listingDir))
+            for position,item in enumerate(urls):
+                url = item["url"]
+                image_id = item["_id"]
+                position = item["position"]
+                threads.append(executor.submit(self.download_image,url,image_id,listing_id,position))
         
             for task in as_completed(threads):
                 data = task.result()
-                
-                if data["status"] == False:
-                    print(f'failed to donwload image : {data["url"]}')
-                    continue
-                
                 downloadedImages.append(data)
                 
         return downloadedImages

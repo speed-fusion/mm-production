@@ -18,45 +18,37 @@ class Predictor:
         
         predicted = []
         
-        downloadedImagesTemp = self.prepare_images(urls,websiteId,sourceId)
+        downloadedImagesTemp = self.downloader.download_multiple_images(urls,websiteId,sourceId)
         
         downloadedImages = sorted(downloadedImagesTemp, key = lambda i: i['position'])
         
         for image in downloadedImages:
             
-            if len(predicted) >= 10:
+            if len(predicted) >= 15:
                 break
             
-            if image["status"] == False:
-                # log image failed to download
+            if image["data"]["image_download_status"] == 2:
+                predicted.append(image)
                 continue
             
-            tmp = image.copy()
-            
-            del tmp["status"]
-            
-            img = open_image(tmp["path"])
+            img = open_image(image["data"]["path"])
             
             pred_class,pred_idx,outputs = self.model.predict(img)
+            print(outputs)
+            print(pred_idx)
+            image["data"]["pred_class"] = pred_class
             
             if not str(pred_class) in ["cars"]:
-                print(f'this is not car image : {tmp["url"]}')
-                continue
+                image["data"]["is_car_image"] = False
+            else:
+                image["data"]["is_car_image"] = True
             
-            tmp["path"] = str(tmp["path"])
+            predicted.append(image)
             
-            predicted.append(tmp)
-            
-        return {
-            "downloaded_images":predicted
-        }
+        return predicted
     
     def encode_image_base64(self,imagePath):
         
         base64str = base64.b64encode(imagePath.read_bytes()).decode("utf-8")
         
         return base64str
-    
-    def prepare_images(self,urls,websiteId,sourceId):
-        downloadedImages = self.downloader.download_multiple_images(urls,websiteId,sourceId)
-        return downloadedImages

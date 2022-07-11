@@ -1,5 +1,7 @@
 import sys
 
+import pymongo
+
 sys.path.append("/libs")
 
 from pulsar_manager import PulsarManager
@@ -28,8 +30,6 @@ class TopicHandler:
             
             message =  self.consumer.consume_message()
             
-            print(message)
-            
             website_id = message["website_id"]
             
             listing_id = message["listing_id"]
@@ -51,26 +51,25 @@ class TopicHandler:
             
             if website_id == 18:
                 
-                car_image_prediction = data.get("car_image_prediction",False)
+                where = {
+                    "listing_id":listing_id,
+                    "car_image_prediction":0,
+                }
                 
-                if car_image_prediction == False:
+                pending_images = self.mongodb.images_collection.find(where).sort("position",pymongo.ASCENDING)
+                
+                if len(pending_images) > 0:
+                    pred_data = self.predictor.predict(pending_images,website_id,listing_id)
                     
-                    images = data.get("images")
-                    
-                    pred_data = self.predictor.predict(images,website_id,listing_id)
-                    
-                    pred_data["car_image_prediction"] = True
-                    
-                    self.mongodb.listings_collection.update_one(
-                        where,
-                        {
-                            "$set":pred_data
-                        }
-                    )
-                    
-                    data.update(pred_data)
-                    
-                    message["data"] = data
+                    for img in pred_data:
+                        
+                        where = {"_id":img["image_id"]}
+                        
+                        img["data"]["car_image_prediction"] = 1
+                        
+                        self.mongodb.images_collection.update_one(where,{
+                            "$set":img["data"]
+                        })
             
             self.producer.produce_message(message)
             

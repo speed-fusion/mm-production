@@ -117,3 +117,13 @@ services:
 
     env_file:
       - .prod.env
+  
+  car_image_prediction:
+    build: ./services/ml/prediction/car_image_prediction
+
+    volumes:
+      - ./services/libs:/libs
+      - ./media:/media
+
+    env_file:
+      - .prod.env
