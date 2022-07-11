@@ -124,7 +124,7 @@ services:
     volumes:
       - ./services/libs:/libs
       - ./media:/media
-      -./services/ml/prediction/car_image/model:/usr/src/app/model
+      - ./services/ml/prediction/car_image/model:/usr/src/app/model
 
     env_file:
       - .prod.env
