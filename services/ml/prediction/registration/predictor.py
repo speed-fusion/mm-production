@@ -88,5 +88,5 @@ class RegistrationPredictor:
                 
         return {
             "predicted_registration":registration,
-            "is_prediction_correct":status
+            "correct_registration":status
         }

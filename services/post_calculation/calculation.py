@@ -94,7 +94,7 @@ class MarketCheckCalculation:
         
         source_mrp = data["source_mrp"]
         
-        registration_status = data["registration_status"]
+        correct_registration = data["correct_registration"]
         
         registration = data["registration"]
         
@@ -105,7 +105,7 @@ class MarketCheckCalculation:
         ltv = {}
         
         if source_mrp < 10000:
-            if registration_status == True:
+            if correct_registration == True:
                 forecourt_price,response = self.dealer_forecourt.get_dealerforecourt_price(registration,mileage,website_id)
                 if forecourt_price == None:
                     ltv["ltv_status"] = 0

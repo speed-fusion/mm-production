@@ -72,7 +72,7 @@ class TopicHandler:
                 else:
                     tmp = {}
                     tmp["reg_prediction_status"] = 0
-                    tmp["is_prediction_correct"] = True
+                    tmp["correct_registration"] = True
                     tmp["predicted_registration"] = registration
                     
                     self.mongodb.listings_collection.update_one(
