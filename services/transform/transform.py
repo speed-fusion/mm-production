@@ -73,8 +73,12 @@ class MarketCheckTransform:
             final["engine_cylinders_litre"] = round(engine_cylinders_cc/1000,1)
         else:
             final["engine_cylinders_litre"] = None
+        
         registration = raw.get("registration",None)
         final["registration"] = clean_string(registration)
+        
+        if final["registration"] != None:
+            final["registration"] = final["registration"].replace(" ","").strip()
         
         built = raw.get("built",None)
         final["built"] = clean_int(built)

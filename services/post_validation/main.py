@@ -45,6 +45,7 @@ class TopicHandler:
                 pass
             
             if website_id == 18:
+                
                 image_count = self.mongodb.images_collection.count_documents({"listing_id":listing_id,"is_car_image":True})
                 
                 if image_count == 0:
@@ -60,8 +61,8 @@ class TopicHandler:
                     continue
                 
             self.producer.produce_message(message)
-            
-        
+
+
 if __name__ == "__main__":
     topic_handler = TopicHandler()
     topic_handler.main()

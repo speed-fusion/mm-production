@@ -9,6 +9,7 @@ class MarketCheckValidation:
         built = data["built"]
         mileage = data["mileage"]
         dealer_id = data["dealer_id"]
+        registration = data["registration"]
         status,message = self.price_validation(source_mrp)
         
         log = {}
@@ -34,7 +35,23 @@ class MarketCheckValidation:
             log["error_message"] = message
             return False,log
         
+        status,message = self.registration_validation(registration)
+        if status == False:
+            log["error_message"] = message
+            return False,log
+        
         return True,{}
+    
+    def registration_validation(self,registration):
+        
+        if registration == None:
+            return False,"registration is not available"
+        
+        if len(registration != 7):
+            return False,f'registration({registration}) length is not equal to 7'
+        
+        return True,None
+    
     
     def price_validation(self,price):
         
