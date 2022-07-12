@@ -145,3 +145,18 @@ services:
     network_mode : host
 
     restart: always
+
+  generate_image:
+    build: ./services/generate_image
+
+    volumes:
+      - ./services/libs:/libs
+      - ./media:/media
+      - /var/html/www/files:/files
+
+    env_file:
+      - .prod.env
+
+    network_mode : host
+
+    restart: always
