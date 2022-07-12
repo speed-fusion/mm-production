@@ -12,17 +12,7 @@ services:
       - .prod.env
     
     network_mode : host
-  
-  media:
-    build: ./services/media
 
-    volumes:
-      - /var/www/html/files:/files
-    ports: 
-      - "6001:5000"
-
-    restart: always
-  
   transform:
     build: ./services/transform
 
