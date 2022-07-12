@@ -7,6 +7,7 @@ import mm_constants
 class MysqlDatabase:
   def __init__(self):
     self.host = mm_constants.MYSQL_HOST
+    self.port = mm_constants.MYSQL_PORT
     self.user = mm_constants.MYSQL_USERNAME
     self.password= mm_constants.MYSQL_PASSWORD
     self.database = mm_constants.MYSQL_DATABASE
@@ -18,7 +19,7 @@ class MysqlDatabase:
 
   def connect (self):
     # Open database connection
-    self.db = pymysql.connect(host=self.host,user=self.user,password=self.password,database=self.database,cursorclass=pymysql.cursors.DictCursor)
+    self.db = pymysql.connect(host=self.host,user=self.user,password=self.password,database=self.database,cursorclass=pymysql.cursors.DictCursor,port=self.port)
     # #self.db.set_character_set(self.obj_config.charset)
     self.cursor = self.db.cursor(pymysql.cursors.DictCursor)
     self.cursor.execute('SET NAMES ' + self.charset + ';')
