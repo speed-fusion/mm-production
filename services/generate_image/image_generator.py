@@ -81,16 +81,16 @@ class ImageGenerator:
             org_image_path = self.files_dir.joinpath(orgImagePath)
             
             if org_image_path.exists() == False:
-                _,orgImage = self.convert_image(rawImage)
+                t_img,orgImage = self.convert_image(rawImage)
                 # upload image in server through ftp
-                org_image_path.write_bytes(orgImage.read())
+                t_img.save(org_image_path)
             
             for size in self.sizes:
                 imagePathTmp = f'S{websiteId}/ad{listingId}/{size["name"]}_{imageId}.jpg'
                 img_path_tmp = self.files_dir.joinpath(imagePathTmp)
                 if img_path_tmp.exists() == False:
-                    _,buff = self.convert_image(rawImage,size)
-                    img_path_tmp.write_bytes(buff.read())
+                    t_img,buff = self.convert_image(rawImage,size)
+                    t_img.save(img_path_tmp)
             
             processedImages["status"] = True
             
