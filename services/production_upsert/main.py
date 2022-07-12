@@ -48,7 +48,7 @@ class TopicHandler:
             if website_id == 18:
                 mapped_data = self.mc_mapper.map(data)
                 
-                self.mongodb.listings_collection.update_one(where,{
+                self.mongodb.listings_collection.update_one(where,"$set":{
                     "mapped_data":mapped_data
                 })
                 
