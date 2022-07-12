@@ -1,6 +1,6 @@
 import pulsar
 import json
-from mm_constants import Topics,URI
+from mm_constants import Topics,PULSAR_HOST
 
 
 class Producer:
@@ -52,7 +52,7 @@ class Consumer:
 class PulsarManager:
     def __init__(self):
         self.topics = Topics
-        self.uri =  URI
+        self.uri =  PULSAR_HOST
         self.client = pulsar.Client(self.uri)
         
     def create_producer(self,topic:Topics):

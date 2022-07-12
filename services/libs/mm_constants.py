@@ -1,9 +1,22 @@
 from enum import Enum
 import os
 
-URI='pulsar://pulsar'
+PIPELINE_NAME = "." + os.environ.get("PIPELINE_NAME","default")
 
-PIPELINE_NAME = os.environ.get("PIPELINE_NAME",".default")
+MONGO_HOST = os.environ.get("MONGO_HOST")
+MONGO_USERNAME = os.environ.get("MONGO_INITDB_ROOT_USERNAME")
+MONGO_PASSWORD = os.environ.get("MONGO_INITDB_ROOT_PASSWORD")
+MONGO_DATABASE = os.environ.get("MONGO_DATABASE")
+
+MYSQL_HOST = os.environ.get("MYSQL_HOST")
+MYSQL_PASSWORD = os.environ.get("MYSQL_ROOT_PASSWORD")
+MYSQL_USERNAME = os.environ.get("MYSQL_USERNAME")
+MYSQL_DATABASE = os.environ.get("MYSQL_DATABASE")
+
+PULSAR_HOST = os.environ.get("PULSAR_HOST")
+
+REDIS_HOST = os.environ.get("REDIS_HOST")
+REDIS_PORT = int(os.environ.get("REDIS_PORT"))
 
 class AutoTraderConstants(Enum):
     WEBSITE_ID = 17

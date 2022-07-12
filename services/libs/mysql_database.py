@@ -2,14 +2,14 @@
 import pymysql
 import re
 import os
+import mm_constants
 
 class MysqlDatabase:
   def __init__(self):
-    # self.host = os.environ.get("MYSQL_HOST","db")
-    self.host = "mysql_dev:3306"
-    self.user = os.environ.get("MYSQL_USERNAME")
-    self.password= os.environ.get("MYSQL_PASSWORD")
-    self.database = os.environ.get("MYSQL_DATABASE")
+    self.host = mm_constants.MYSQL_HOST
+    self.user = mm_constants.MYSQL_USERNAME
+    self.password= mm_constants.MYSQL_PASSWORD
+    self.database = mm_constants.MYSQL_DATABASE
     self.charset = "utf8"
     self.cursor = None
 

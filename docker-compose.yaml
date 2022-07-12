@@ -40,7 +40,8 @@ services:
 
     volumes:
       - ./services/redis/data:/data
-    
+    ports:
+      - 6379:6379
     restart: always
 
   mongodb:
@@ -82,6 +83,8 @@ services:
 
     env_file:
       - .prod.env
+    
+    network_mode : host
   
   media:
     build: ./services/media
@@ -102,6 +105,8 @@ services:
     env_file:
       - .prod.env
     
+    network_mode : host
+    
     restart: always
   
   pre_validation:
@@ -112,6 +117,8 @@ services:
 
     env_file:
       - .prod.env
+
+    network_mode : host
     
     restart: always
   
@@ -124,6 +131,8 @@ services:
     env_file:
       - .prod.env
     
+    network_mode : host
+
     restart: always
   
   make_model_prediction:
@@ -134,7 +143,8 @@ services:
 
     env_file:
       - .prod.env
-    
+    network_mode : host
+
     restart: always
   
   car_image_prediction:
@@ -147,7 +157,9 @@ services:
 
     env_file:
       - .prod.env
-  
+
+    network_mode : host
+
     restart: always
 
   registration_prediction:
@@ -160,6 +172,8 @@ services:
 
     env_file:
       - .prod.env
+
+    network_mode : host
     
     restart: always
   
@@ -171,5 +185,6 @@ services:
 
     env_file:
       - .prod.env
-    
+    network_mode : host
+
     restart: always
