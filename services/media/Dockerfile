@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["gunicorn", "-w 10", "-b", "0.0.0.0:5000", "main:app"]
+CMD ["gunicorn", "-w 15", "-b", "0.0.0.0:5000", "main:app"]
