@@ -6,7 +6,7 @@ from pathlib import Path
 class PlateRecognizerApi:
     
     def __init__(self) -> None:
-        PLATE_RECOGNIZER_TOKEN = os.environ.get("PLATE_RECOGNIZER_TOKEN","3a61a44b8e39d27b22e690612093f362cfef1f63")
+        PLATE_RECOGNIZER_TOKEN = os.environ.get("PLATE_RECOGNIZER_TOKEN")
         
         self.headers = {
             "Authorization":f'Token {PLATE_RECOGNIZER_TOKEN}'

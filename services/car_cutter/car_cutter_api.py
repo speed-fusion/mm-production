@@ -6,9 +6,11 @@ from concurrent.futures import ThreadPoolExecutor,as_completed
 
 from imageDownloader import ImageDownloader
 
+import os
+
 class CarCutter:
     def __init__(self) -> None:
-        self.api_key = "pidiw7jdlul9p36xeie1"
+        self.api_key = os.environ.get("CAR_CUTTER_KEY")
         
         self.cwd = Path.cwd()
         
