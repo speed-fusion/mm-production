@@ -110,6 +110,9 @@ class MarketCheckTransform:
         admin_fee = raw.get("admin_fee",0)
         final["admin_fee"] = clean_int(admin_fee)
         
+        if final["admin_fee"] == None:
+            final["admin_fee"] = 0
+        
         trim = raw.get("trim",None)
         final["trim"] = clean_string(trim)
         
