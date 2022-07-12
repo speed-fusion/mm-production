@@ -9,7 +9,7 @@ MONGO_PASSWORD = os.environ.get("MONGO_INITDB_ROOT_PASSWORD")
 MONGO_DATABASE = os.environ.get("MONGO_DATABASE")
 
 MYSQL_HOST = os.environ.get("MYSQL_HOST")
-MYSQL_PORT = os.environ.get("MYSQL_PORT")
+MYSQL_PORT = int(os.environ.get("MYSQL_PORT"))
 MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD")
 MYSQL_USERNAME = os.environ.get("MYSQL_USERNAME")
 MYSQL_DATABASE = os.environ.get("MYSQL_DATABASE")
