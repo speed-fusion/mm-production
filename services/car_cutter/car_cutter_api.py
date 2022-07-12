@@ -175,7 +175,7 @@ class CarCutter:
             img_item["angle"] = angle
             img_item["url"] = url
             img_item["path"] = str(file_path)
-            img_item["car_cutter_status"] = 0
+            img_item["cc_status"] = 0
             
             if "exterior" in angle:
                 if angle in self.background_remove_angles:
