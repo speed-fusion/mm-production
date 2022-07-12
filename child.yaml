@@ -152,7 +152,7 @@ services:
     volumes:
       - ./services/libs:/libs
       - ./media:/media
-      - /var/html/www/files:/files
+      - /var/www/html/files:/files
 
     env_file:
       - .prod.env
