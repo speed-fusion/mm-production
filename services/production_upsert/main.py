@@ -5,6 +5,7 @@ sys.path.append("/libs")
 from pulsar_manager import PulsarManager
 
 from mongo_database import MongoDatabase
+from mysql_database import MysqlDatabase
 
 from mapping import MarketCheckFieldMaper
 class TopicHandler:
@@ -18,6 +19,8 @@ class TopicHandler:
         self.producer = pulsar_manager.create_producer(pulsar_manager.topics.GENERATE_IMAGE)
         
         self.mongodb = MongoDatabase()
+        
+        self.mysqldb = MysqlDatabase()
         
         self.mc_mapper = MarketCheckFieldMaper()
     
@@ -47,12 +50,19 @@ class TopicHandler:
             
             if website_id == 18:
                 mapped_data = self.mc_mapper.map(data)
+                mapped_data["Status"] = "to_parse"
                 
-                self.mongodb.listings_collection.update_one(where,{
-                    "$set":{
-                    "mapped_data":mapped_data
-                }
-                })
+                self.mysqldb.connect()
+                try:
+                    result = self.mysqldb.recSelect("fl_listings",{"sourceId":data["source_id"]})
+                    
+                    if len(result) == 0:
+                        self.mysqldb.recInsert("fl_listings",mapped_data)
+                        
+                except Exception as e:
+                    print(f'error : {str(e)}')   
+                self.mysqldb.disconnect()
+                
                 
             self.producer.produce_message(message)  
             
