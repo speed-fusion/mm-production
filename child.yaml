@@ -106,8 +106,21 @@ services:
 
     restart: always
   
-  production_upsert:
-    build: ./services/production_upsert
+  fl_listing_upsert:
+    build: ./services/production/listing
+
+    volumes:
+      - ./services/libs:/libs
+
+    env_file:
+      - .prod.env
+
+    network_mode : host
+
+    restart: always
+
+  fl_listing_photos_upsert:
+    build: ./services/production/photos
 
     volumes:
       - ./services/libs:/libs

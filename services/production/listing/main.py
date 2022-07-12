@@ -7,6 +7,8 @@ from pulsar_manager import PulsarManager
 from mongo_database import MongoDatabase
 from mysql_database import MysqlDatabase
 
+from MMUrlGenerator import MMUrlGenerator
+
 from mapping import MarketCheckFieldMaper
 class TopicHandler:
     def __init__(self):
@@ -21,6 +23,8 @@ class TopicHandler:
         self.mongodb = MongoDatabase()
         
         self.mysqldb = MysqlDatabase()
+        
+        self.urlGenerator = MMUrlGenerator()
         
         self.mc_mapper = MarketCheckFieldMaper()
     
@@ -66,6 +70,14 @@ class TopicHandler:
                                 "mysql_listing_id":id
                             }
                         })
+                        
+                        make = mapped_data["make"]
+                        model = mapped_data["model"]
+                        title = mapped_data["title"]
+                        
+                        mmUrl = self.urlGenerator.generateMMUrl(make,model,title,id)
+                        
+                        self.mysqldb.recUpdate("fl_listings",{"mm_product_url":mmUrl},{"ID":id})
                         
                 except Exception as e:
                     print(f'error : {str(e)}')   

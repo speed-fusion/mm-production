@@ -61,7 +61,8 @@ class TopicHandler:
                         tmp["angle"] = img["angle"]
                         tmp["path"] = img["path"]
                         tmp["cc_status"] = img["cc_status"]
-                        tmp["cc_position"] = img["position"]
+                        tmp["image_ready"] = 1
+                        tmp["position"] = img["position"]
                         
                         self.mongodb.images_collection.update_one({"_id":img["id"]},{"$set":tmp})
                     

@@ -2,9 +2,8 @@ from io import BytesIO
 from pathlib import Path
 from PIL import Image
 from concurrent.futures import ThreadPoolExecutor,as_completed
-from ftpHandler import ftpHandler
 
-class imageGenerator:
+class ImageGenerator:
     def __init__(self) -> None:
         self.sizes = [
             {
@@ -18,6 +17,8 @@ class imageGenerator:
                 "w":600
             },
         ]
+        
+        self.files_dir = Path("/files")
     
     def convert_image(self, image, size=None):
         if image.format == 'PNG' and image.mode == 'RGBA':
@@ -46,7 +47,7 @@ class imageGenerator:
         img = None
         
         with open(imagePath,"rb") as f:
-            img = Image.open(BytesIO(f.read()))  
+            img = Image.open(BytesIO(f.read()))
         return img
     
     def generateImages(self,websiteId,listingId,imageId,imagePath,imageUrl,position,processedImages):
@@ -54,8 +55,6 @@ class imageGenerator:
         processedImages["url"] = imageUrl
         processedImages["position"] = position
         processedImages["status"] = False
-        
-        ftp = ftpHandler()
         
         try:
             rawImage = self.read_image(imagePath)
@@ -75,44 +74,29 @@ class imageGenerator:
                 tmp['type'] = size["name"]
                 tmp["size"] = size
                 processedImages[size["name"]] = tmp
-            
-            imageStats = ftp.getFileStats(orgImagePath)
-            
-            if imageStats["exists"] == True:
                 
-                processedImages["status"] = True
-                
-                processedImages["exists"] = True
-                
-                return processedImages
             
             
-            _,orgImage = self.convert_image(rawImage)
-            # upload image in server through ftp
-            ftp.uploadFile(orgImagePath,orgImage)
+            org_image_path = self.files_dir.joinpath(orgImagePath)
+            
+            if org_image_path.exists() == False:
+                _,orgImage = self.convert_image(rawImage)
+                # upload image in server through ftp
+                org_image_path.write_bytes(orgImage)
             
             for size in self.sizes:
-                _,buff = self.convert_image(rawImage,size)
                 imagePathTmp = f'S{websiteId}/ad{listingId}/{size["name"]}_{imageId}.jpg'
-                # upload image in server through ftp
-                ftp.uploadFile(imagePathTmp,buff)
+                img_path_tmp = self.files_dir.joinpath(imagePathTmp)
+                if img_path_tmp.exists() == False:
+                    _,buff = self.convert_image(rawImage,size)
+                    img_path_tmp.write_bytes(buff)
             
             processedImages["status"] = True
-            processedImages["exists"] = False
-            
-            try:
-                deletePath = Path(imagePath)
-                deletePath.unlink()
-                print(f'file deleted : {deletePath}')
-            except:
-                pass
             
             return processedImages
         
         except Exception as e:
             print(f'error : {str(e)}')
-        
-        ftp.disconnect()
         
         return processedImages
         
@@ -120,22 +104,29 @@ class imageGenerator:
         processedImages = []
         
         threads = []
-        
-        ftp = ftpHandler()
-        
-        dirname = f'S{websiteId}/ad{listingId}'
 
-        ftp.createDirectory(f'{ftp.imageDir}/{dirname}')
+        website_dir = self.files_dir.joinpath(f'S{websiteId}')
+        
+        if website_dir.exists() == False:
+            website_dir.mkdir()
+
+        listing_img_dir = website_dir.joinpath(f'ad{listingId}')
+        
+        if listing_img_dir.exists() == False:
+            listing_img_dir.mkdir()
         
         with ThreadPoolExecutor(max_workers=15) as executor:
             for item in images:
                 
-                imageId = item["id"]
+                imageId = item["_id"]
                 
                 imagePath = item["path"]
                 
                 imageUrl = item["url"]
                 
+                position = None
+                
+            
                 position = item["position"]
                 
                 threads.append(executor.submit(self.generateImages,websiteId,listingId,imageId,imagePath,imageUrl,position,item))
@@ -145,33 +136,31 @@ class imageGenerator:
                 
                 processedImages.append(data)
         
-        ftp.disconnect()
-        
         return processedImages
 
 
 
-if __name__ == "__main__":
-    ig = imageGenerator()
+# if __name__ == "__main__":
+#     ig = imageGenerator()
     
-    cwd = Path.cwd()
+#     cwd = Path.cwd()
     
-    imageDir = cwd.joinpath("images")
-    
-    
-    images = [
-        {
-            "id":"hjshja",
-            "path":f'{imageDir.joinpath("test.png")}',
-            "url":"xyz"
-        }
-    ]
-    websiteId = "s56"
-    listingId = "a12345"
+#     imageDir = cwd.joinpath("images")
     
     
-    t = ig.processListing(images,websiteId,listingId)
-    print(t)
+#     images = [
+#         {
+#             "id":"hjshja",
+#             "path":f'{imageDir.joinpath("test.png")}',
+#             "url":"xyz"
+#         }
+#     ]
+#     websiteId = "s56"
+#     listingId = "a12345"
+    
+    
+#     t = ig.processListing(images,websiteId,listingId)
+#     print(t)
     # cwd = Path.cwd()
     
     # imagePath = cwd.joinpath("test.png")

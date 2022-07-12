@@ -70,3 +70,4 @@ class Topics(Enum):
     CAR_CUTTER = f'motormarket{PIPELINE_NAME}.listing.replace.background.image'
     
     AUTOTRADER_LISTING_SCRAPER = f'motormarket{PIPELINE_NAME}.scraper.autotrader.listing.scrape'
+    
