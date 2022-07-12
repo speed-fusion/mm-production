@@ -119,7 +119,7 @@ class MarketCheckTransform:
         vehicle_type = raw.get("vehicle_type",None)
         final["vehicle_type"] = clean_string(vehicle_type)
         
-        emission_scheme = raw.get("emission_scheme",None)
+        emission_scheme = raw.get("emission_scheme",0)
         final["emission_scheme"] = emission_scheme
         
         transmission = raw.get("transmission",None)
