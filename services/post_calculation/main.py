@@ -16,7 +16,7 @@ class TopicHandler:
         
         self.consumer = pulsar_manager.create_consumer(pulsar_manager.topics.LISTING_POST_CALCULATION)
         
-        self.producer = pulsar_manager.create_producer(pulsar_manager.topics.LISTING_PREDICT_NUMBERPLATE)
+        self.producer = pulsar_manager.create_producer(pulsar_manager.topics.LISTINGS_UPSERT_PROD_DB)
         
         self.mc_calculation = MarketCheckCalculation()
         
@@ -28,8 +28,6 @@ class TopicHandler:
         while True:
             
             message =  self.consumer.consume_message()
-            
-            print(message)
             
             website_id = message["website_id"]
             
@@ -82,7 +80,7 @@ class TopicHandler:
                     "$set":data
                 })
             
-            self.producer.produce_message(message)
+            self.producer.produce_message(message)  
             
         
 if __name__ == "__main__":

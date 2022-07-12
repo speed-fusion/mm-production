@@ -105,3 +105,16 @@ services:
     network_mode : host
 
     restart: always
+  
+  production_upsert:
+    build: ./services/production_upsert
+
+    volumes:
+      - ./services/libs:/libs
+
+    env_file:
+      - .prod.env
+      
+    network_mode : host
+
+    restart: always

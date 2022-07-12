@@ -41,6 +41,8 @@ class Topics(Enum):
     
     FL_LISTINGS_INSERT = f'motormarket{PIPELINE_NAME}.database.fllistings.insert'
     
+    LISTINGS_UPSERT_PROD_DB = f'motormarket{PIPELINE_NAME}.database.production.insert'
+    
     FL_LISTINGS_FIND = f'motormarket{PIPELINE_NAME}.database.fllistings.find'
     
     LISTING_TRANSFORM = f'motormarket{PIPELINE_NAME}.scraper.listing.transform'
