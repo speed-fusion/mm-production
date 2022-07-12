@@ -71,7 +71,7 @@ class TopicHandler:
                         title = mapped_data["title"]
                         
                         mm_url = self.urlGenerator.generateMMUrl(make,model,title,id)
-                        
+                        print(mm_url)
                         self.mongodb.listings_collection.update_one(where,{
                             "$set":{
                                 "mysql_listing_id":id,
