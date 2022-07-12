@@ -3,6 +3,7 @@ class MarketCheckFieldMaper:
         
         self.field_map = {
             "source_id":"sourceId",
+            "source_url":"product_url",
             "account_id":"Account_ID",
             "website_id":"Website_ID",
             "featured_id":"Featured_ID",
@@ -39,7 +40,10 @@ class MarketCheckFieldMaper:
             "trim":"trim",
             "vehicle_type":"vehicle_type",
             "margin":"margin",
-            "mm_price":"mmPrice"
+            "mm_price":"mmPrice",
+            "cc_extra_margin":"cc_extra_margin",
+            "forecourt_110":"forecourt_110",
+            "registration_date":"registration_date"
         }
     
     def map(self,data):

@@ -40,7 +40,7 @@ class MarketCheckTransform:
         
         raw = data["raw"]
         
-        final = {}
+        final = data["raw"].copy()
         
         dealer_name = raw.get("dealer_name",None)
         final["dealer_name"] = clean_string(dealer_name)
