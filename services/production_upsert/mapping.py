@@ -57,6 +57,6 @@ class MarketCheckFieldMaper:
         if "pcp_apr" in data:
             pcp_apr = data["pcp_apr"]
             for key in pcp_apr:
-                tmp[pcp_apr] = pcp_apr
+                tmp[key] = pcp_apr[key]
         
         return tmp
