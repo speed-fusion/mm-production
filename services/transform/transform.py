@@ -132,7 +132,8 @@ class MarketCheckTransform:
         
         final["fuel_code"] = self.fuel_codes.get(fuel,4)
         
-        final["source_mrp"] = final["source_price"] + final["admin_fee"]
+        if final["source_mrp"] != None:
+            final["source_mrp"] = final["source_price"] + final["admin_fee"]
         
         return final
     
