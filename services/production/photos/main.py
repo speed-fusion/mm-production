@@ -52,9 +52,11 @@ class TopicHandler:
                 
                 thumb_image_path = images[0]["thumb"]["path"]
                 
+                mm_url = data["mm_url"]
+                
                 self.mysqldb.connect()
                 
-                self.mysqldb.recCustomQuery(f'UPDATE fl_listings SET Main_photo="{thumb_image_path}",Status="active" WHERE ID={mysql_listing_id} AND Status NOT IN("manual_expire","pending")')
+                self.mysqldb.recCustomQuery(f'UPDATE fl_listings SET Main_photo="{thumb_image_path}",Status="active",mm_product_url="{mm_url}" WHERE ID={mysql_listing_id} AND Status NOT IN("manual_expire","pending")')
                 
                 for item in images:
                     tmp = {}

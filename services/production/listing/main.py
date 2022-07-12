@@ -64,20 +64,18 @@ class TopicHandler:
                         mapped_data["create_ts"] = {"func":"now()"}
                         mapped_data["updated_at"] = {"func":"now()"}
                         id = self.mysqldb.recInsert("fl_listings",mapped_data)
-                        
-                        self.mongodb.listings_collection.update_one(where,{
-                            "$set":{
-                                "mysql_listing_id":id
-                            }
-                        })
-                        
                         make = mapped_data["make"]
                         model = mapped_data["model"]
                         title = mapped_data["title"]
                         
-                        mmUrl = self.urlGenerator.generateMMUrl(make,model,title,id)
+                        mm_url = self.urlGenerator.generateMMUrl(make,model,title,id)
                         
-                        self.mysqldb.recUpdate("fl_listings",{"mm_product_url":mmUrl},{"ID":id})
+                        self.mongodb.listings_collection.update_one(where,{
+                            "$set":{
+                                "mysql_listing_id":id,
+                                "mm_url":mm_url
+                            }
+                        })
                         
                 except Exception as e:
                     print(f'error : {str(e)}')   
