@@ -139,7 +139,7 @@ class CarCutter:
         exterior = []
         images = []
         
-        website_dir = self.media.joinpath(f'S{websiteId}')
+        website_dir = self.media.joinpath(f'{websiteId}')
         
         if not website_dir.exists():
             website_dir.mkdir()
