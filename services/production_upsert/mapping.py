@@ -43,7 +43,8 @@ class MarketCheckFieldMaper:
             "forecourt_110":"forecourt_110",
             "registration_date":"registration_date",
             "emission_scheme":"emission_scheme",
-            "total_photos":"Photos_count"
+            "total_photos":"Photos_count",
+            "source_url":"sourceUrl"
         }
     
     def map(self,data):

@@ -114,7 +114,21 @@ services:
 
     env_file:
       - .prod.env
-      
+
+    network_mode : host
+
+    restart: always
+
+  car_cutter:
+    build: ./services/car_cutter
+
+    volumes:
+      - ./services/libs:/libs
+      - ./media:/media
+
+    env_file:
+      - .prod.env
+
     network_mode : host
 
     restart: always
