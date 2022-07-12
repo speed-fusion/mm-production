@@ -63,7 +63,9 @@ class TopicHandler:
                     if len(result) == 0:
                         mapped_data["create_ts"] = {"func":"now()"}
                         mapped_data["updated_at"] = {"func":"now()"}
+                        
                         id = self.mysqldb.recInsert("fl_listings",mapped_data)
+                        
                         make = mapped_data["make"]
                         model = mapped_data["model"]
                         title = mapped_data["title"]
