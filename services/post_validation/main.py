@@ -60,6 +60,10 @@ class TopicHandler:
                     self.mongodb.insert_event(self.mongodb.listing_event_collection,what)
                     continue
                 
+                self.mongodb.listings_collection.update_one(where,{"$set":{
+                    "total_photos": image_count
+                }})
+                
             self.producer.produce_message(message)
 
 
