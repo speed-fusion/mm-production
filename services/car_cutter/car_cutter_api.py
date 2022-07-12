@@ -209,6 +209,8 @@ class CarCutter:
             processed_images.append(tmp)
             index += 1
         
+        processed_images = self.download_multiple_images(processed_images)
+        
         for i in interior:
             tmp = i.copy()
             tmp["position"] = index
@@ -219,7 +221,7 @@ class CarCutter:
             processed_images.append(tmp)
             index += 1
         
-        processed_images = self.download_multiple_images(processed_images)
+        
         
         return processed_images,len(unique_angles_found)
 
