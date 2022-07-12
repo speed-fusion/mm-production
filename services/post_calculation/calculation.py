@@ -151,9 +151,10 @@ class MarketCheckCalculation:
     
     
     def car_cutter_extra_margin(self,data):
-            
         if data["source_mrp"] > 10000:
-            if data["registration_status"] == 1:
-                extra_margin = 200
-                data["cc_extra_margin"] = extra_margin
-                data["margin"] = data["margin"] + extra_margin
+            extra_margin = 200
+            data["cc_extra_margin"] = extra_margin
+            data["margin"] = data["margin"] + extra_margin
+            data["mm_price"] = data["mm_price"] + extra_margin
+        else:
+            data["cc_extra_margin"] = 0

@@ -47,18 +47,17 @@ class TopicHandler:
                 # add code to report this incident
                 continue
             
-            
             if website_id == 17:
                 pass
             
-            
             if website_id == 18:
                 mapped_data = self.mc_mapper.map(data)
+                
                 mapped_data["Status"] = "to_parse"
                 
                 self.mysqldb.connect()
                 try:
-                    result = self.mysqldb.recSelect("fl_listings",{"sourceId":data["source_id"]})
+                    result = self.mysqldb.recCustomQuery(f'SELECT ID,Status From fl_listings WHERE sourceId={data["source_id"]} AND Website_ID={website_id}')
                     
                     if len(result) == 0:
                         mapped_data["create_ts"] = {"func":"now()"}
@@ -71,13 +70,22 @@ class TopicHandler:
                         title = mapped_data["title"]
                         
                         mm_url = self.urlGenerator.generateMMUrl(make,model,title,id)
-                        print(mm_url)
+                        
                         self.mongodb.listings_collection.update_one(where,{
                             "$set":{
                                 "mysql_listing_id":id,
                                 "mm_url":mm_url
                             }
                         })
+                    else:
+                        status = result[0]["Status"]
+                        
+                        if status in ["manual_expire","to_parse","pending","sold"]:
+                            continue
+                        
+                        if status == "expired":
+                            self.mysqldb.recUpdate("fl_listing",mapped_data,{"ID":result[0]["ID"]})
+                            continue
                         
                 except Exception as e:
                     print(f'error : {str(e)}')   

@@ -43,7 +43,14 @@ class MarketCheckFieldMaper:
             {'key': 'registration_date', 'value': 'registration_date'},
             {'key': 'total_photos', 'value': 'Photos_count'},
             {'key':'source_url','value':'sourceUrl'},
-            {'key':'source_url','value':'product_url'}
+            {'key':'source_url','value':'product_url'},
+            {'key':'make','value':'orignalMake'},
+            {'key':'model','value':'orignalModel'},
+            {'key':'predicted_make','value':'predictedMake'},
+            {'key':'predicted_model','value':'predictedModel'},
+            {'key':'registration','value':'orignalRegistration'},
+            {'key':'predicted_registration','value':'predictedRegistration'},
+            {'key':'engine_cylinders_litre','value':'engineCylindersLitre'}
             ]
         
         # self.field_map = {

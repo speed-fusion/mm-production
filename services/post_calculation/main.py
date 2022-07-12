@@ -62,6 +62,8 @@ class TopicHandler:
                 
                 self.mc_calculation.calculate_category_id(data)
                 
+                self.mc_calculation.car_cutter_extra_margin(data)
+                
                 category_id = data.get("category_id",None)
                 
                 if category_id == None:
