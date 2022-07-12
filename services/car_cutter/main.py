@@ -52,7 +52,7 @@ class TopicHandler:
                 source_mrp = data["source_mrp"]
                 
                 if source_mrp > 10000:
-                    images = [i["url"] for i in list(self.mongodb.images_collection.find({"listing_id":listing_id,"is_car_image":True,}))]
+                    images = [i["url"] for i in list(self.mongodb.images_collection.find({"listing_id":listing_id,"is_car_image":True,"cc_status":None}))]
                     
                     processed_images,cc_total_img = self.car_cutter.process_images(images,website_id,listing_id)
                     
