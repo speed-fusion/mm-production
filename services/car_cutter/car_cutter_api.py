@@ -1,7 +1,7 @@
 from pathlib import Path
 import time
 import requests
-from helper import load_images,generate_sha1_hash
+from local_helper import load_images,generate_sha1_hash
 from concurrent.futures import ThreadPoolExecutor,as_completed
 
 from imageDownloader import ImageDownloader
