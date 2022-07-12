@@ -57,7 +57,13 @@ class TopicHandler:
                     result = self.mysqldb.recSelect("fl_listings",{"sourceId":data["source_id"]})
                     
                     if len(result) == 0:
-                        self.mysqldb.recInsert("fl_listings",mapped_data)
+                        id = self.mysqldb.recInsert("fl_listings",mapped_data)
+                        
+                        self.mongodb.listings_collection.update_one(where,{
+                            "$set":{
+                                "mysql_listing_id":id
+                            }
+                        })
                         
                 except Exception as e:
                     print(f'error : {str(e)}')   
