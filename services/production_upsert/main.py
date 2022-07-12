@@ -57,6 +57,8 @@ class TopicHandler:
                     result = self.mysqldb.recSelect("fl_listings",{"sourceId":data["source_id"]})
                     
                     if len(result) == 0:
+                        mapped_data["create_ts"] = {"func":"now()"}
+                        mapped_data["update_ts"] = {"func":"now()"}
                         id = self.mysqldb.recInsert("fl_listings",mapped_data)
                         
                         self.mongodb.listings_collection.update_one(where,{

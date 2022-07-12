@@ -9,8 +9,6 @@ class MarketCheckFieldMaper:
             "featured_id":"Featured_ID",
             "plan_id":"Plan_ID",
             "priority":"Priority",
-            "updated_at":"updated_at",
-            "created_at":"created_at",
             "admin_fee":"admin_fees",
             "body_style":"body_style",
             "built":"built",
